@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <title>간단한 지도 표시하기</title>
+    <title>내 주변 카페</title>
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=qb8k02fqhx"></script>
 </head>
 
@@ -18,12 +18,42 @@
 
 
         <script>
-            var mapOptions = {
-                center: new naver.maps.LatLng(37.3595704, 127.105399),
-                zoom: 10
+
+            const options = {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0,
             };
 
-            var map = new naver.maps.Map('map', mapOptions);
+            function success(pos) {
+                const crd = pos.coords;
+
+                console.log("Your current position is:");
+                console.log(`Latitude : ${crd.latitude}`);
+                console.log(`Longitude: ${crd.longitude}`);
+                console.log(`More or less ${crd.accuracy} meters.`);
+
+                var mapOptions = {
+                    center: new naver.maps.LatLng(crd.latitude, crd.longitude),
+                    zoom: 17
+                };
+
+                var map = new naver.maps.Map('map', mapOptions);
+
+                var marker = new naver.maps.Marker({
+                    position: new naver.maps.LatLng(crd.latitude, crd.longitude),
+                    map: map
+                });
+            }
+
+            function error(err) {
+                console.warn(`ERROR(${err.code}): ${err.message}`);
+            }
+
+            navigator.geolocation.getCurrentPosition(success, error, options);
+
+
+
         </script>
     </div>
 
