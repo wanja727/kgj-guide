@@ -22,7 +22,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@TestPropertySource(locations="classpath:application-test.properties")
+//@TestPropertySource(locations="classpath:application-test.properties")
 @Log4j2
 class CafeRepositoryTest {
 
@@ -189,6 +189,14 @@ class CafeRepositoryTest {
         for(Cafe resultCafe: resultCafeList) {
             log.info(resultCafe.toString());
         }
+    }
+
+    @Test
+    @DisplayName("카페목록 조회")
+    public void getCafeListTest(){
+        List<String> cafeList = cafeRepository.getCafeList(127.1488309, 37.5594976);
+
+        cafeList.forEach(cafe -> log.info(cafe));
     }
 
 }
