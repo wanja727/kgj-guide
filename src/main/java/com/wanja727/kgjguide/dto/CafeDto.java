@@ -4,10 +4,12 @@ import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@ToString
 public class CafeDto {
 
     private String bizesId; // 상가업소번호
@@ -22,11 +24,7 @@ public class CafeDto {
 
     private String rdnmAdr; // 도로명주소
 
-    private double lon; // 경도
-
-    private double lat; // 위도
-
-    private String dist; // 현재위치에서 카페까지의 직선거리 계산결과
+    private double dist; // 현재위치에서 카페까지의 직선거리 계산결과
 
 //    @QueryProjection
 //    public CafeDto(String bizesId, String openBizesNm, String brchNm, String indsSclsNm, String bldNm, String rdnmAdr, double lon, double lat, double dist) {

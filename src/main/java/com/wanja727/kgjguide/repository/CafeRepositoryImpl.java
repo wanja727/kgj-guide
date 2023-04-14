@@ -9,7 +9,7 @@ import java.util.List;
 
 import static com.wanja727.kgjguide.entity.QCafe.cafe;
 
-public class CafeRepositoryImpl implements CafeRepositoryCustom {
+public class CafeRepositoryImpl {
 
     private JPAQueryFactory queryFactory;
 
@@ -48,27 +48,27 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
                                 ).as("dist")
     * */
 
-    @Override
-    public List<String> getCafeList(double lat, double lng) {
-
-        List<String> content = queryFactory
-                .select(
-                       Expressions.stringTemplate("cast(ST_Distance({0}, {1})) as String",
-                                        Expressions.stringTemplate("POINT({0}, {1})",
-                                                lng,
-                                                lat
-                                        ),
-                                        Expressions.stringTemplate("POINT({0}, {1})",
-                                                cafe.lon,
-                                                cafe.lat
-                                        )
-                                ).as("dist")
-                )
-                .from(QCafe.cafe)
-
-                .fetch();
-
-        return content;
-
-    }
+//    @Override
+//    public List<String> getCafeList(double lat, double lng) {
+//
+//        List<String> content = queryFactory
+//                .select(
+//                       Expressions.stringTemplate("cast(ST_Distance({0}, {1})) as String",
+//                                        Expressions.stringTemplate("POINT({0}, {1})",
+//                                                lng,
+//                                                lat
+//                                        ),
+//                                        Expressions.stringTemplate("POINT({0}, {1})",
+//                                                cafe.lon,
+//                                                cafe.lat
+//                                        )
+//                                ).as("dist")
+//                )
+//                .from(QCafe.cafe)
+//
+//                .fetch();
+//
+//        return content;
+//
+//    }
 }
