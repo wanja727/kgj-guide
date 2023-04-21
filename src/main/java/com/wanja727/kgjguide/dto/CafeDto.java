@@ -1,10 +1,13 @@
 package com.wanja727.kgjguide.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.Point;
 
 @Getter
 @Setter
@@ -25,6 +28,13 @@ public class CafeDto {
     private String rdnmAdr; // 도로명주소
 
     private double dist; // 현재위치에서 카페까지의 직선거리 계산결과
+
+    @JsonIgnore
+    private Geometry latlng;
+
+    private double lat; //
+
+    private double lng; //
 
 //    @QueryProjection
 //    public CafeDto(String bizesId, String openBizesNm, String brchNm, String indsSclsNm, String bldNm, String rdnmAdr, double lon, double lat, double dist) {

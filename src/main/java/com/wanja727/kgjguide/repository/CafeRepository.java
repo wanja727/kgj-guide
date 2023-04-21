@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface CafeRepository extends JpaRepository<Cafe, String>, QuerydslPredicateExecutor<Cafe> { //CafeRepositoryCustom
 
-    @Query("select new com.wanja727.kgjguide.dto.CafeDto(a.bizesId, a.openBizesNm, a.brchNm, a.indsSclsNm, a.bldNm, a.rdnmAdr, distance(:currPoint, a.point, true)) "+
+    @Query("select new com.wanja727.kgjguide.dto.CafeDto(a.bizesId, a.openBizesNm, a.brchNm, a.indsSclsNm, a.bldNm, a.rdnmAdr, distance(:currPoint, a.point, true), a.point, 0.0, 0.0) "+ //astext(transform(a.point, 4326))
             "from Cafe a "+
             "where dwithin(:currPoint, a.point, 500, true) = true "+
             "order by distance(:currPoint, a.point, true)")

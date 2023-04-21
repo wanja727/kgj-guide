@@ -10,6 +10,7 @@ import org.junit.jupiter.api.*;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.PrecisionModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -32,7 +33,7 @@ class CafeRepositoryTest {
     @Autowired
     private CafeRepository cafeRepository;
 
-    private GeometryFactory geometryFactory = new GeometryFactory();
+    private GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
 
     @Order(1)
     @Test
