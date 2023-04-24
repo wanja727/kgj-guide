@@ -14,24 +14,35 @@
 </head>
 
 <div layout:fragment="content">
-    본문 영역 입니다.
 
-    <ul class="list-group w-30" id="cafeList">
-    </ul>
+    <!--    <ul class="nav flex-column position-static" style="width: 100px">-->
+    <!--        <li class="nav-item">-->
+    <!--            <a class="nav-link active" href="#">Active</a>-->
+    <!--        </li>-->
+    <!--        <li class="nav-item">-->
+    <!--            <a class="nav-link" href="#">Link</a>-->
+    <!--        </li>-->
+    <!--        <li class="nav-item">-->
+    <!--            <a class="nav-link" href="#">Link</a>-->
+    <!--        </li>-->
+    <!--        <li class="nav-item">-->
+    <!--            <a class="nav-link disabled" href="#">Disabled</a>-->
+    <!--        </li>-->
+    <!--    </ul>-->
 
-    <div id="map" style="width:50%;height:400px;"></div>
+    <div class="float-start overflow-auto" style="width: 300px;height: calc(100vh - 56px)">
+        <ul class="list-group" id="cafeList">
+        </ul>
+    </div>
 
+    <div id="map" class="" style="width: calc(100% - 300px);height:400px;"></div>
 
     <script>
+        var map = new naver.maps.Map('map');
+        var markers = [], infoWindows = [];
+        var circle;
 
-        // var mapOptions = {
-        //     center: new naver.maps.LatLng(crd.latitude, crd.longitude),
-        //     zoom: 17
-        // };
-
-        var map = new naver.maps.Map('map'); //, mapOptions
-
-        // Example POST method implementation:
+        // fetch 비동기호출
         async function postData(url = "", data = {}) {
             // Default options are marked with *
             const response = await fetch(url, {
@@ -50,6 +61,7 @@
             return response.json(); // parses JSON response into native JavaScript objects
         }
 
+        // 위치 옵션
         const options = {
             enableHighAccuracy: true,
             timeout: 5000,
@@ -68,10 +80,13 @@
             console.log(`Longitude: ${crd.longitude}`);
             console.log(`More or less ${crd.accuracy} meters.`);
 
-            // 지도 중심점 이동
-            map.setCenter(new naver.maps.LatLng(crd.latitude, crd.longitude));
+            map.setCenter(new naver.maps.LatLng(crd.latitude, crd.longitude)); // 중심 좌표 이동
+            // map.setCenter(new naver.maps.LatLng(37.5594976, 127.1488309)); // 중심 좌표 이동 (고덕)
 
-            var markers = [], infoWindows = [];
+            // var marker = new naver.maps.Marker({
+            //     position: new naver.maps.LatLng(crd.latitude, crd.longitude),
+            //     map: map
+            // })
 
             // 드래그 끝나면
             naver.maps.Event.addListener(map, 'dragend', function (e) {
