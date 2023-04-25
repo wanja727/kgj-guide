@@ -9,26 +9,12 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <title>내 주변 카페</title>
-    <script type="text/javascript"
-            src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=qb8k02fqhx"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=qb8k02fqhx"></script>
+    <script type="text/javascript" th:src="@{/js/MarkerOverlappingRecognizer.js}"></script>
 </head>
 
 <div layout:fragment="content">
-
-    <!--    <ul class="nav flex-column position-static" style="width: 100px">-->
-    <!--        <li class="nav-item">-->
-    <!--            <a class="nav-link active" href="#">Active</a>-->
-    <!--        </li>-->
-    <!--        <li class="nav-item">-->
-    <!--            <a class="nav-link" href="#">Link</a>-->
-    <!--        </li>-->
-    <!--        <li class="nav-item">-->
-    <!--            <a class="nav-link" href="#">Link</a>-->
-    <!--        </li>-->
-    <!--        <li class="nav-item">-->
-    <!--            <a class="nav-link disabled" href="#">Disabled</a>-->
-    <!--        </li>-->
-    <!--    </ul>-->
 
     <div class="float-start overflow-auto" style="width: 300px;height: calc(100vh - 56px)">
         <ul class="list-group" id="cafeList">
@@ -38,9 +24,74 @@
     <div id="map" class="" style="width: calc(100% - 300px);height:400px;"></div>
 
     <script>
+        var MARKER_ICON_URL = 'https://ssl.pstatic.net/static/maps/img/icons/sp_pins_spot_v3.png';
+        var MARKER_HIGHLIGHT_ICON_URL = 'https://ssl.pstatic.net/static/maps/img/icons/sp_pins_spot_v3_over.png';
+        var MARKER_SPRITE_X_OFFSET = 29;
+        var MARKER_SPRITE_Y_OFFSET = 50;
+        var MARKER_SPRITE_POSITION = {
+            "A0": [0, 0],
+            "B0": [MARKER_SPRITE_X_OFFSET, 0],
+            "C0": [MARKER_SPRITE_X_OFFSET*2, 0],
+            "D0": [MARKER_SPRITE_X_OFFSET*3, 0],
+            "E0": [MARKER_SPRITE_X_OFFSET*4, 0],
+            "F0": [MARKER_SPRITE_X_OFFSET*5, 0],
+            "G0": [MARKER_SPRITE_X_OFFSET*6, 0],
+            "H0": [MARKER_SPRITE_X_OFFSET*7, 0],
+            "I0": [MARKER_SPRITE_X_OFFSET*8, 0],
+
+            "A1": [0, MARKER_SPRITE_Y_OFFSET],
+            "B1": [MARKER_SPRITE_X_OFFSET, MARKER_SPRITE_Y_OFFSET],
+            "C1": [MARKER_SPRITE_X_OFFSET*2, MARKER_SPRITE_Y_OFFSET],
+            "D1": [MARKER_SPRITE_X_OFFSET*3, MARKER_SPRITE_Y_OFFSET],
+            "E1": [MARKER_SPRITE_X_OFFSET*4, MARKER_SPRITE_Y_OFFSET],
+            "F1": [MARKER_SPRITE_X_OFFSET*5, MARKER_SPRITE_Y_OFFSET],
+            "G1": [MARKER_SPRITE_X_OFFSET*6, MARKER_SPRITE_Y_OFFSET],
+            "H1": [MARKER_SPRITE_X_OFFSET*7, MARKER_SPRITE_Y_OFFSET],
+            "I1": [MARKER_SPRITE_X_OFFSET*8, MARKER_SPRITE_Y_OFFSET],
+
+            "A2": [0, MARKER_SPRITE_Y_OFFSET*2],
+            "B2": [MARKER_SPRITE_X_OFFSET, MARKER_SPRITE_Y_OFFSET*2],
+            "C2": [MARKER_SPRITE_X_OFFSET*2, MARKER_SPRITE_Y_OFFSET*2],
+            "D2": [MARKER_SPRITE_X_OFFSET*3, MARKER_SPRITE_Y_OFFSET*2],
+            "E2": [MARKER_SPRITE_X_OFFSET*4, MARKER_SPRITE_Y_OFFSET*2],
+            "F2": [MARKER_SPRITE_X_OFFSET*5, MARKER_SPRITE_Y_OFFSET*2],
+            "G2": [MARKER_SPRITE_X_OFFSET*6, MARKER_SPRITE_Y_OFFSET*2],
+            "H2": [MARKER_SPRITE_X_OFFSET*7, MARKER_SPRITE_Y_OFFSET*2],
+            "I2": [MARKER_SPRITE_X_OFFSET*8, MARKER_SPRITE_Y_OFFSET*2]
+        };
+
         var map = new naver.maps.Map('map');
         var markers = [], infoWindows = [];
         var circle;
+
+        var recognizer = new MarkerOverlappingRecognizer({
+            highlightRect: false,
+            tolerance: 5
+        });
+
+        recognizer.setMap(map);
+
+        function highlightMarker(marker) {
+            var icon = marker.getIcon();
+
+            if (icon.url !== MARKER_HIGHLIGHT_ICON_URL) {
+                icon.url = MARKER_HIGHLIGHT_ICON_URL;
+                marker.setIcon(icon);
+            }
+
+            marker.setZIndex(1000);
+        }
+
+        function unhighlightMarker(marker) {
+            var icon = marker.getIcon();
+
+            if (icon.url === MARKER_HIGHLIGHT_ICON_URL) {
+                icon.url = MARKER_ICON_URL;
+                marker.setIcon(icon);
+            }
+
+            marker.setZIndex(100);
+        }
 
         // fetch 비동기호출
         async function postData(url = "", data = {}) {
@@ -83,6 +134,7 @@
             map.setCenter(new naver.maps.LatLng(crd.latitude, crd.longitude)); // 중심 좌표 이동
             // map.setCenter(new naver.maps.LatLng(37.5594976, 127.1488309)); // 중심 좌표 이동 (고덕)
 
+            // 현재 위치
             // var marker = new naver.maps.Marker({
             //     position: new naver.maps.LatLng(crd.latitude, crd.longitude),
             //     map: map
@@ -90,93 +142,156 @@
 
             // 드래그 끝나면
             naver.maps.Event.addListener(map, 'dragend', function (e) {
-                console.log(e.coord._lng + ' ' + e.coord._lat);
+                // console.log(e.coord._lng + ' ' + e.coord._lat);
+
+                var center = map.getCenter();
+                console.log('center: ' + center._lng + ' ' + center._lat);
 
                 // fetch 비동기 통신
-                postData("http://localhost/", {lng: e.coord._lng, lat: e.coord._lat}).then((data) => {
+                postData("http://localhost/", {lng: center._lng, lat: center._lat}).then((data) => {
                     console.log(data); // JSON data parsed by `data.json()` call
 
+                    // 이전 검색정보 삭제
+                    // 반경 삭제
+                    if (!!circle) {
+                        circle.setMap(null);
+                    }
+
+                    // 리스트 삭제
                     let cafeList = document.getElementById("cafeList");
                     cafeList.replaceChildren();
-                    // 기존 마커,리스트 지우기
+
+                    // 마커 삭제
                     for (var i = 0; i < markers.length; i++) {
                         if (markers[i].setMap()) {
                             markers[i].setMap(null);
                         }
+                        recognizer.remove(markers[i]);
                     }
 
-                    // 신규 마커, 리스트 추가
-                    for (var key in data) {
-                        var position = new naver.maps.LatLng(
-                            data[key].lat,
-                            data[key].lng
-                        );
+                    // 설명창 삭제
+                    // for (var j = 0; j < infoWindows.length; j++) {
+                    //     if (infoWindows[j].getMap()) {
+                    //         infoWindows[j].close();
+                    //     }
+                    // }
 
-                        var marker = new naver.maps.Marker({
-                            map: map,
-                            position: position,
-                            title: key,
-                            zIndex: 100
-                        });
+                    // 신규 검색정보 추가
+                    // 반경 추가
+                    circle = new naver.maps.Circle({
+                        map: map,
+                        center: map.getCenter(),
+                        radius: 500,
+                        fillColor: 'Lavender',
+                        fillOpacity: 0.3
+                    });
+
+                    // 신규 마커와 리스트 추가
+                    for (var key in data) {
+
+                        // var position = new naver.maps.LatLng(
+                        //     data[key].lat,
+                        //     data[key].lng
+                        // );
+
+                        // var marker = new naver.maps.Marker({
+                        //     map: map,
+                        //     position: position,
+                        //     // title: key,
+                        //     zIndex: 100
+                        // });
+
+                        // if (!marker.setMap()) {
+                        //     marker.setMap(map);
+                        // }
+
+
+                        var markerContent = [
+                                '<div style="position:absolute;">',
+                                '<div class="infowindow" style="display:none;position:absolute;width:220px;height:20px;top:-46px;left:-100px;background-color:white;z-index:1;border:1px solid black;margin:0;padding:0;">',
+                                '<a href="#" class="spmc btn_clear">핀 삭제</a>',
+                                '<div>HTML 마커 콘텐츠입니다.</div>',
+                                '<div style="margin: 0px; padding: 0px; width: 0px; height: 0px; position: absolute; border-width: 24px 10px 0px; border-style: solid; border-color: rgb(51, 51, 51) transparent; border-image: initial; pointer-events: none; box-sizing: content-box !important; transform-origin: right bottom 0px; transform: skewX(0deg); bottom: -25px; left: 100px;"></div>',
+                                '<div style="margin: 0px; padding: 0px; width: 0px; height: 0px; position: absolute; border-width: 24px 10px 0px; border-style: solid; border-color: rgb(255, 255, 255) transparent; border-image: initial; pointer-events: none; box-sizing: content-box !important; transform-origin: right bottom 0px; transform: skewX(0deg); bottom: -22px; left: 100px;"></div>',
+                                '</div>',
+                                '<div class="pin_s" style="cursor: pointer; width: 22px; height: 30px;">',
+                                '<img src="https://ssl.pstatic.net/static/maps/img/icons/pin_s_3.png" alt="" style="margin: 0px; padding: 0px; border: 0px solid transparent; display: block; max-width: none; max-height: none; -webkit-user-select: none; position: absolute; width: 22px; height: 30px; left: 0px; top: 0px;">',
+                                '<div class="pins_s_tooltip" style="width:150px;height:20px;position:absolute;top:30px;font-size: 12px;">' + data[key].openBizesNm + '</div>',
+                                '</div>',
+                                '</div>'
+                            ].join(''),
+                            htmlMarker = new naver.maps.Marker({
+                                position: new naver.maps.LatLng(data[key].lat, data[key].lng),
+                                title: data[key].openBizesNm,
+                                map: map,
+                                icon: {
+                                    content: markerContent,
+                                    size: new naver.maps.Size(22, 30),
+                                    anchor: new naver.maps.Point(11, 30)
+                                }
+                            }),
+                            elHtmlMarker = htmlMarker.getElement();
+                            recognizer.add(htmlMarker);
+
 
                         // var infoWindow = new naver.maps.InfoWindow({
                         //     content: '<div style="width:150px;text-align:center;padding:10px;">The Letter is <b>"'+ key.substr(0, 1) +'"</b>.</div>'
                         // });
 
-                        markers.push(marker);
-                        // infoWindows.push(infoWindow);
+                        // var contentString = [
+                        //     '<div class="iw_inner">',
+                        //     '   <h3>'+data[key].openBizesNm+'</h3>',
+                        //     '</div>'
+                        // ].join('');
 
-                        if (!marker.setMap()) {
-                            marker.setMap(map);
-                        }
+                        // var infowindow = new naver.maps.InfoWindow({
+                        //     content: contentString
+                        // });
+
+                        // naver.maps.Event.addListener(marker, "click", function(e) {
+                        //     if (infowindow.getMap()) {
+                        //         infowindow.close();
+                        //     } else {
+                        //         infowindow.open(map, marker);
+                        //     }
+                        // });
+
+                        // infowindow.open(map, marker);
 
                         let li = document.createElement("li");
                         li.className = "list-group-item";
                         li.innerText = data[key].openBizesNm;
 
                         cafeList.append(li);
+
+                        // markers.push(marker);
+                        markers.push(htmlMarker);
+                        // infoWindows.push(infowindow);
                     }
 
-                    // naver.maps.Event.addListener(map, 'idle', function() {
-                    //     updateMarkers(map, markers);
-                    // });
-
-                    function updateMarkers(map, markers) {
-
-                        // var mapBounds = map.getBounds();
-                        var marker, position;
-
-                        for (var i = 0; i < markers.length; i++) {
-
-                            marker = markers[i]
-                            position = marker.getPosition();
-
-                            // if (mapBounds.hasLatLng(position)) {
-                            showMarker(map, marker);
-                            // } else {
-                            //     hideMarker(map, marker);
-                            // }
-                        }
-                    }
-
-
-                    // Return an event handler storing the marker index as a closure variable named seq.
-                    // function getClickHandler(seq) {
-                    //     return function(e) {
-                    //         var marker = markers[seq],
-                    //             infoWindow = infoWindows[seq];
+                    // var overlapCoverMarker = null;
                     //
-                    //         if (infoWindow.getMap()) {
-                    //             infoWindow.close();
-                    //         } else {
-                    //             infoWindow.open(map, marker);
-                    //         }
+                    // naver.maps.Event.addListener(recognizer, 'overlap', function(list) {
+                    //     if (overlapCoverMarker) {
+                    //         unhighlightMarker(overlapCoverMarker);
                     //     }
-                    // }
-
-                    // for (var i=0, ii=markers.length; i<ii; i++) {
-                    //     naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
-                    // }
+                    //
+                    //     overlapCoverMarker = list[0].marker;
+                    //
+                    //     naver.maps.Event.once(overlapCoverMarker, 'mouseout', function() {
+                    //         highlightMarker(overlapCoverMarker);
+                    //     });
+                    // });
+                    //
+                    // naver.maps.Event.addListener(recognizer, 'clickItem', function(e) {
+                    //     recognizer.hide();
+                    //
+                    //     if (overlapCoverMarker) {
+                    //         unhighlightMarker(overlapCoverMarker);
+                    //
+                    //         overlapCoverMarker = null;
+                    //     }
+                    // });
 
 
                 });
@@ -185,12 +300,11 @@
 
         function error(err) {
             console.warn(`ERROR(${err.code}): ${err.message}`);
-
-
         }
 
-
     </script>
+
+
 </div>
 
 </html>
