@@ -5,7 +5,6 @@ import com.wanja727.kgjguide.dto.CafeDto;
 import com.wanja727.kgjguide.entity.Cafe;
 import com.wanja727.kgjguide.entity.QCafe;
 import lombok.extern.log4j.Log4j2;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.*;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -16,13 +15,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.TestPropertySource;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 //@TestPropertySource(locations="classpath:application-test.properties")
@@ -147,7 +143,7 @@ class CafeRepositoryTest {
         // 루프돌면서 INSERT
         cafeList.forEach(cafe -> {
             Cafe result = cafeRepository.save(cafe);
-            log.info("INSERT 성공 상가업소번호: " + result.getBizesId());
+            log.info("INSERT 성공 상가업소번호: " + result.getCafeId());
         });
     }
 
@@ -156,8 +152,8 @@ class CafeRepositoryTest {
     @DisplayName("상가업소번호로 카페 조회 테스트")
     public void testSelect() {
 
-        String bizesId = "17509550";
-        Optional<Cafe> result = cafeRepository.findById(bizesId);
+        String cafeId = "17509550";
+        Optional<Cafe> result = cafeRepository.findById(cafeId);
         Cafe cafe = result.orElseThrow();
         log.info(cafe.toString());
     }
