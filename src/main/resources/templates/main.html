@@ -22,6 +22,21 @@
         </ul>
     </div>
 
+    <div class="overflow-auto" id="overlay1"
+         style="position: fixed;display: none;width: 325px;height: calc(100vh - 56px);top: 56px;left: 315px;right: 0;bottom: 0;background-color: rgba(0,0,0,0.5);z-index: 2;">
+
+        <div id="cafeInfo" class="card border-success m-1" style="width:300px;">
+        </div>
+
+        <div>리뷰 2건</div>
+
+        <ul class="list-group" id="reviewList">
+        </ul>
+
+    </div>
+    <div class="btn-close" onclick="off()" id="overlay2"
+         style="position: fixed;display: none;width: 50px;height: 50px;top: 56px;left: 640px;right: 0;bottom: 0;background-color: rgba(0,0,0,0.5);z-index: 2;cursor: pointer;"></div>
+
     <div id="map" class="" style="width: calc(100% - 315px);height: calc(100vh - 56px);"></div>
 
     <script>
@@ -78,6 +93,98 @@
                 body: JSON.stringify(data), // body data type must match "Content-Type" header
             });
             return response.json(); // parses JSON response into native JavaScript objects
+        }
+
+        function cafeInfo(cafeId) {
+            console.log('눌렀어 ' + cafeId);
+
+            on();
+
+            postData("http://localhost/cafe/" + cafeId, {}).then((data) => {
+                console.log(data); // JSON data parsed by `data.json()` call
+
+                // 기존 내용 지우기
+                // 카페 정보 삭제
+                let cafeInfoDiv = document.getElementById("cafeInfo");
+                cafeInfoDiv.replaceChildren();
+                // 리뷰 목록 삭제
+                let reviewList = document.getElementById("reviewList");
+                reviewList.replaceChildren();
+
+                // 받아온 내용 추가
+                // 카페 정보 세팅
+                /*
+                <div class="card-header bg-transparent border-success">Header</div>
+                <div class="card-body text-success">
+                    <h5 class="card-title">Success card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+                <div class="card-footer bg-transparent border-success">수정요청</div>
+                */
+
+                let cardBody = document.createElement("div");
+                cardBody.className = "card-body text-success";
+
+                let cardTitle = document.createElement("h5");
+                cardTitle.className = "card-title";
+                cardTitle.innerText = data.cafeDto.cafeNm;
+
+                let cardText = document.createElement("p");
+                cardText.className = "card-text";
+                cardText.innerText = "지점명: " + data.cafeDto.brchNm + "\n건물명: " + data.cafeDto.bldNm + "\n업종: " + data.cafeDto.indsSclsNm + "\n주소: " + data.cafeDto.rdnmAdr;
+
+                let cardFooter = document.createElement("div");
+                cardFooter.className = "card-footer bg-transparent border-success";
+                cardFooter.innerText = "수정요청";
+
+                cardBody.append(cardTitle);
+                cardBody.append(cardText);
+
+                cafeInfoDiv.append(cardBody);
+                cafeInfoDiv.append(cardFooter);
+
+
+                // 리뷰 정보 세팅
+                for(var i=0;i<data.reviewDTOList.length;i++){
+
+
+                    let li = document.createElement("li");
+                    li.className = "list-group-item list-group-item-action"
+
+                    let div = document.createElement("div");
+                    div.className = "d-flex w-100 justify-content-between";
+
+                    let h5 = document.createElement("h5");
+                    h5.className = "mb-1";
+                    h5.innerText = data.reviewDTOList[i].userId;
+
+                    let small = document.createElement("small");
+                    small.innerText = "작성일"
+
+                    let p = document.createElement("p");
+                    p.className = "mb-1";
+                    p.innerText = data.reviewDTOList[i].content;
+
+                    div.append(h5);
+                    div.append(small);
+                    li.append(div);
+                    li.append(p);
+
+                    reviewList.append(li);
+                }
+            });
+
+        }
+
+        function on() {
+            document.getElementById("overlay1").style.display = "block";
+            document.getElementById("overlay2").style.display = "block";
+            // document.getElementsByClassName("overlay").style.display = "block";
+        }
+
+        function off() {
+            document.getElementById("overlay1").style.display = "none";
+            document.getElementById("overlay2").style.display = "none";
         }
 
         // 위치 옵션
@@ -185,7 +292,7 @@
                                 '<div class="pin_s" style="cursor: pointer; width: 22px; height: 30px;">',
                                 // '<img src="https://ssl.pstatic.net/static/maps/img/icons/pin_s_3.png" alt="" style="margin: 0px; padding: 0px; border: 0px solid transparent; display: block; max-width: none; max-height: none; -webkit-user-select: none; position: absolute; width: 22px; height: 30px; left: 0px; top: 0px;">',
                                 // '<div class="pins_s_tooltip" style="display:none;width:150px;height:20px;position:absolute;top:5px;left:25px;font-size: 12px;">' + data[key].cafeNm + '</div>',
-                                '<div class="pins_s_tooltip" style="border-radius: 25px;width:max-content;height:max-content;position:absolute;margin: 0px; padding: 0px 7px;border: 1px solid;font-size: 12px;font-weight: bold;background-color: white;white-space: pre-wrap;">' + data[key].cafeNm +'\n대형 콘센트:많음 wifi:원활 좌석:편안'+ '</div>',
+                                '<div class="pins_s_tooltip" style="border-radius: 25px;width:max-content;height:max-content;position:absolute;margin: 0px; padding: 0px 7px;border: 1px solid;font-size: 12px;font-weight: bold;background-color: white;white-space: pre-wrap;">' + data[key].cafeNm + '\n대형 콘센트:많음 wifi:원활 좌석:편안' + '</div>',
                                 '</div>',
                                 '</div>'
                             ].join(''),
@@ -243,7 +350,8 @@
                         // cafeList.append(li);
 
                         let a = document.createElement("a");
-                        a.href = "#";
+                        a.href = "javascript:cafeInfo(" + data[key].cafeId + ");" //"#";
+                        // a.onclick = "cafeInfo()";
                         a.className = "list-group-item list-group-item-action"
 
                         let div = document.createElement("div");

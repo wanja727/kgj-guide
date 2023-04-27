@@ -2,16 +2,15 @@ package com.wanja727.kgjguide.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wanja727.kgjguide.constant.StoreSize;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.locationtech.jts.geom.Geometry;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
+@Builder
 public class CafeDto {
 
     private String cafeId;

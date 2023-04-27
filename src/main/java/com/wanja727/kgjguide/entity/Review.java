@@ -1,9 +1,7 @@
 package com.wanja727.kgjguide.entity;
 
 import com.wanja727.kgjguide.constant.StoreSize;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
@@ -11,6 +9,9 @@ import javax.persistence.*;
 @Entity
 @Getter @Setter
 @ToString(exclude = {"user", "cafe"})
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Review extends BaseEntity {
 
     @Id
@@ -20,9 +21,11 @@ public class Review extends BaseEntity {
     private Long reviewId;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private Users user;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cafe_id")
     private Cafe cafe;
 
     @Enumerated(EnumType.STRING)

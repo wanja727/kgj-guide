@@ -2,10 +2,7 @@ package com.wanja727.kgjguide.entity;
 
 import com.wanja727.kgjguide.constant.Authority;
 import com.wanja727.kgjguide.constant.Role;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
@@ -13,6 +10,9 @@ import javax.persistence.*;
 @Entity
 @Getter @Setter
 @ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Users extends BaseEntity {
 
     @Id

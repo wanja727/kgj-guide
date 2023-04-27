@@ -32,12 +32,4 @@ public class MainController {
         List<CafeDto> cafeList = cafeService.getCafeList(map.get("lng"), map.get("lat"));
         return new ResponseEntity<List<CafeDto>>(cafeList, HttpStatus.OK);
     }
-
-//    @PostMapping(value = "/{cafeId}")
-//    public @ResponseBody ResponseEntity getCafeInfo(Model model, @PathVariable("cafeId") Long cafeId) {
-//        System.out.println("cafeId = " + cafeId);
-//
-//        List<CafeDto> cafeList = cafeService.getCafeList(map.get("lng"), map.get("lat"));
-//        return new ResponseEntity<List<CafeDto>>(cafeList, HttpStatus.OK);
-//    }
 }

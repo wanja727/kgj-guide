@@ -1,6 +1,8 @@
 package com.wanja727.kgjguide.service;
 
+import com.wanja727.kgjguide.dto.CafeDetailDTO;
 import com.wanja727.kgjguide.dto.CafeDto;
+import com.wanja727.kgjguide.dto.ReviewDTO;
 import com.wanja727.kgjguide.entity.Cafe;
 import com.wanja727.kgjguide.repository.CafeRepository;
 import lombok.extern.log4j.Log4j2;
@@ -20,14 +22,17 @@ import static org.junit.jupiter.api.Assertions.*;
 class CafeServiceTest {
 
     @Autowired
-    private CafeRepository cafeRepository;
+    private CafeService cafeService;
+
 
     @Test
-    @DisplayName("카페목록 조회")
-    public void getCafeListTest(){
-//        List<CafeDto> cafeList = cafeRepository.getCafeList(127.1488309, 37.5594976);
-//
-//        cafeList.forEach(cafe -> log.info(cafe.toString()));
+    @DisplayName("카페상세 조회")
+    void getCafeDetailTest() throws Exception {
+        CafeDetailDTO cafeInfo = cafeService.getCafeInfo("16654572");
+        CafeDto cafeDto = cafeInfo.getCafeDto();
+        System.out.println("cafeDto = " + cafeDto);
+        List<ReviewDTO> reviewDTOList = cafeInfo.getReviewDTOList();
+        reviewDTOList.forEach(reviewDTO -> System.out.println("reviewDTO = " + reviewDTO));
     }
 
 }
