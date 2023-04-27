@@ -25,10 +25,10 @@
     <div class="overflow-auto" id="overlay1"
          style="position: fixed;display: none;width: 325px;height: calc(100vh - 56px);top: 56px;left: 315px;right: 0;bottom: 0;background-color: rgba(0,0,0,0.5);z-index: 2;">
 
-        <div id="cafeInfo" class="card border-success m-1" style="width:300px;">
+        <div id="cafeInfo" class="card border-success m-1" style="width:auto;">
         </div>
 
-        <div>리뷰 2건</div>
+        <div id="reviewHeader" class="d-flex justify-content-between"></div>
 
         <ul class="list-group" id="reviewList">
         </ul>
@@ -98,7 +98,7 @@
         function cafeInfo(cafeId) {
             console.log('눌렀어 ' + cafeId);
 
-            on();
+            on(); // 리뷰 overlay 보이도록
 
             postData("http://localhost/cafe/" + cafeId, {}).then((data) => {
                 console.log(data); // JSON data parsed by `data.json()` call
@@ -143,6 +143,8 @@
                 cafeInfoDiv.append(cardBody);
                 cafeInfoDiv.append(cardFooter);
 
+                let html = `<span>리뷰 ${data.reviewDTOList.length}건</span><button type="button" class="btn btn btn-light">평가 남기기</button>`;
+                document.getElementById("reviewHeader").innerHTML = html;
 
                 // 리뷰 정보 세팅
                 for(var i=0;i<data.reviewDTOList.length;i++){
