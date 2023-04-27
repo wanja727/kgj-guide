@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@RequiredArgsConstructor
 @ToString
 public class Cafe extends BaseEntity {
 
@@ -49,14 +50,14 @@ public class Cafe extends BaseEntity {
     private Long floor;
 
     @Column
-    @Comment("콘센트 점수")
-    private float consent_score;
+    @Comment("콘센트 점수 평균")
+    private float consentScoreAverage;
 
     @Column
-    @Comment("와이파이 점수")
-    private float wifi_score;
+    @Comment("와이파이 점수 평균")
+    private float wifiScoreAverage;
 
     @Column
-    @Comment("편안함 점수")
-    private float comfort_score;
+    @Comment("편안함 점수 평균")
+    private float comfortScoreAverage;
 }
