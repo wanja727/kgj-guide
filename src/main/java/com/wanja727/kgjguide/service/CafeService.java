@@ -50,31 +50,32 @@ public class CafeService {
     }
 
     public CafeDetailDTO getCafeInfo(String cafeId) throws Exception {
-
+        // 결과 DTO 선언
         CafeDetailDTO cafeDetailDTO = new CafeDetailDTO();
 
         // 리뷰 목록
         List<Review> reviewList = reviewRepository.findByCafeCafeId(cafeId);
-        // Entiry -> DTO변환
+        // Entity -> DTO변환
         List<ReviewDTO> reviewDTOList = reviewList.stream()
                 .map(review -> modelMapper.map(review, ReviewDTO.class)).collect(Collectors.toList());
+        // 결과 DTO에 리뷰 목록 세팅
         cafeDetailDTO.setReviewDTOList(reviewDTOList);
 
         // 카페 정보
         Optional<Cafe> cafe = cafeRepository.findById(cafeId);
-
+        // 카페 없으면 에러
         if(!cafe.isPresent()){
             throw new Exception("카페 정보 결과가 없습니다.");
         }
-
+        // Entity -> DTO 변환
         CafeDto cafeDto = CafeDto.builder()
                 .cafeNm(cafe.get().getCafeNm())
                 .cafeId(cafe.get().getCafeId())
                 .bldNm(cafe.get().getBldNm())
                 .brchNm(cafe.get().getBrchNm())
                 .floor(cafe.get().getFloor())
-                .lat(cafe.get().getPoint().getY())
-                .lng(cafe.get().getPoint().getX())
+                .lat(cafe.get().getPoint().getY()) // Point에서 lat(위도) 좌표 꺼내서 세팅
+                .lng(cafe.get().getPoint().getX()) // Point에서 lng(경도) 좌표 꺼내서 세팅
                 .rdnmAdr(cafe.get().getRdnmAdr())
                 .consentScoreAverage(cafe.get().getConsentScoreAverage())
                 .comfortScoreAverage(cafe.get().getComfortScoreAverage())
@@ -82,8 +83,7 @@ public class CafeService {
                 .storeSize(cafe.get().getStoreSize())
                 .indsSclsNm(cafe.get().getIndsSclsNm())
                 .build();
-
-//        CafeDto cafeDto = modelMapper.map(cafe, CafeDto.class);
+        // 결과 DTO에 카페 정보 세팅
         cafeDetailDTO.setCafeDto(cafeDto);
 
         return cafeDetailDTO;

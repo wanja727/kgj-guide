@@ -50,7 +50,7 @@ class ReviewRepositoryTest {
 
         return cafe;
     }
-
+    // 사용사 등록
     public Users createUser() {
         Users users = Users.builder()
                 .authority(Authority.WRITE)
@@ -62,9 +62,6 @@ class ReviewRepositoryTest {
 
         return users;
     }
-
-
-
 
     @Test
     @DisplayName("리뷰 등록 테스트")

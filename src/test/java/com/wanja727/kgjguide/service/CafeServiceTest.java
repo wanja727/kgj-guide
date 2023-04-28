@@ -24,7 +24,6 @@ class CafeServiceTest {
     @Autowired
     private CafeService cafeService;
 
-
     @Test
     @DisplayName("카페상세 조회")
     void getCafeDetailTest() throws Exception {

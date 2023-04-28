@@ -8,7 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Getter @Setter
-@ToString(exclude = {"userId","cafeId"})
+@ToString
 public class ReviewDTO {
 
     private Long reviewId;
