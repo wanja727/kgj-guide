@@ -41,6 +41,7 @@ public class ReviewService {
                 .user(users)
                 .cafe(cafe)
                 .content(reviewDTO.getContent())
+                .storeSize(reviewDTO.getStoreSize())
                 .build();
 
         //Review review = modelMapper.map(reviewDTO, Review.class);
