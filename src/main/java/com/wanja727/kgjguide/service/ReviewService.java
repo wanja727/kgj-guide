@@ -48,6 +48,25 @@ public class ReviewService {
         reviewRepository.save(review);
         System.out.println("review.getReviewId() = " + review.getReviewId());
 
+        // TODO: 카페테이블에 크기,층수,점수3종 반영
+//        cafe.
+
         return review.getReviewId();
+    }
+
+    public Long modify(ReviewDTO reviewDTO){
+        Review review = reviewRepository.findById(reviewDTO.getReviewId()).orElseThrow(EntityNotFoundException::new);
+        review.setStoreSize(reviewDTO.getStoreSize());
+        review.setFloor(reviewDTO.getFloor());
+        review.setConsentScore(reviewDTO.getConsentScore());
+        review.setWifiScore(reviewDTO.getWifiScore());
+        review.setComfortScore(reviewDTO.getComfortScore());
+        review.setContent(reviewDTO.getContent());
+        return review.getReviewId();
+    }
+
+    public void remove(Long reviewId){
+        System.out.println("삭제할 reviewId = " + reviewId);
+        reviewRepository.deleteById(reviewId);
     }
 }

@@ -10,4 +10,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     // 리뷰 등록시 카페의 평점 계산해야 함
 
     List<Review> findByCafeCafeId(String cafeId);
+
 }

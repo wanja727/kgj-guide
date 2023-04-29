@@ -9,7 +9,7 @@ import org.locationtech.jts.geom.Point;
 import javax.persistence.*;
 
 @Entity
-@Getter
+@Getter @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

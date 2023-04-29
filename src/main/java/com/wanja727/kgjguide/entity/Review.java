@@ -29,11 +29,13 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "cafe_id")
     private Cafe cafe;
 
+    @Column
     @Enumerated(EnumType.STRING)
     @Comment("매장 크기")
     private StoreSize storeSize;
 
     @Column
+    @Enumerated(EnumType.STRING)
     @Comment("층수")
     private Floor floor;
 
