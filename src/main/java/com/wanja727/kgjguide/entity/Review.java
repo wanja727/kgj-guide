@@ -1,5 +1,6 @@
 package com.wanja727.kgjguide.entity;
 
+import com.wanja727.kgjguide.constant.Floor;
 import com.wanja727.kgjguide.constant.StoreSize;
 import lombok.*;
 import org.hibernate.annotations.Comment;
@@ -34,19 +35,19 @@ public class Review extends BaseEntity {
 
     @Column
     @Comment("층수")
-    private Long floor;
+    private Floor floor;
 
     @Column
     @Comment("콘센트 점수")
-    private float consentScore;
+    private int consentScore;
 
     @Column
     @Comment("와이파이 점수")
-    private float wifiScore;
+    private int wifiScore;
 
     @Column
     @Comment("편안함 점수")
-    private float comfortScore;
+    private int comfortScore;
 
     @Column
     @Comment("내용")

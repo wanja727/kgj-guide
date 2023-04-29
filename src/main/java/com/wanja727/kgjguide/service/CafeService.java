@@ -12,7 +12,6 @@ import lombok.extern.log4j.Log4j2;
 import org.locationtech.jts.geom.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -77,9 +76,9 @@ public class CafeService {
                 .lat(cafe.get().getPoint().getY()) // Point에서 lat(위도) 좌표 꺼내서 세팅
                 .lng(cafe.get().getPoint().getX()) // Point에서 lng(경도) 좌표 꺼내서 세팅
                 .rdnmAdr(cafe.get().getRdnmAdr())
-                .consentScoreAverage(cafe.get().getConsentScoreAverage())
-                .comfortScoreAverage(cafe.get().getComfortScoreAverage())
-                .wifiScoreAverage(cafe.get().getWifiScoreAverage())
+                .consentScoreRep(cafe.get().getConsentScoreRep())
+                .comfortScoreRep(cafe.get().getComfortScoreRep())
+                .wifiScoreRep(cafe.get().getWifiScoreRep())
                 .storeSize(cafe.get().getStoreSize())
                 .indsSclsNm(cafe.get().getIndsSclsNm())
                 .build();

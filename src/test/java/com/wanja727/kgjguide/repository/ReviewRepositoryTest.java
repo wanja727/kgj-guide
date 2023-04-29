@@ -1,6 +1,7 @@
 package com.wanja727.kgjguide.repository;
 
 import com.wanja727.kgjguide.constant.Authority;
+import com.wanja727.kgjguide.constant.Floor;
 import com.wanja727.kgjguide.constant.Role;
 import com.wanja727.kgjguide.constant.StoreSize;
 import com.wanja727.kgjguide.entity.Cafe;
@@ -75,10 +76,10 @@ class ReviewRepositoryTest {
         Review review = Review.builder()
                 .cafe(cafe)
                 .user(users)
-                .consentScore(3.0F)
-                .comfortScore(4.0F)
-                .wifiScore(5.0F)
-                .floor(1L)
+                .consentScore(3)
+                .comfortScore(4)
+                .wifiScore(2)
+                .floor(Floor.MORE)
                 .content("콘센트는 적지만 와이파이 빵빵하고 괜찮네요")
                 .storeSize(StoreSize.MEDIUM)
                 .build();

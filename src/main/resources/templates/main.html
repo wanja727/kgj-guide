@@ -28,7 +28,7 @@
 
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb mt-3 mx-3">
-                <li class="breadcrumb-item active fw-bold" aria-current="page">카페 정보</li>
+                <li class="breadcrumb-item active fw-bold" aria-current="page">카페 정보☕️</li>
             </ol>
         </nav>
 
@@ -52,36 +52,35 @@
 
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb mt-3 mx-3">
-                <li class="breadcrumb-item"><a class="text-decoration-none fw-bold" href="javascript:closeReview()">카페
-                    정보</a></li>
-                <li class="breadcrumb-item active fw-bold" aria-current="page">리뷰 쓰기</li>
+                <li class="breadcrumb-item"><a class="text-decoration-none fw-bold" href="javascript:closeReview()">카페 정보☕️</a></li>
+                <li class="breadcrumb-item active fw-bold" aria-current="page">리뷰 쓰기✏️</li>
             </ol>
         </nav>
 
         <div>매장크기(테이블)🏢</div>
-        <input type="radio" class="btn-check" name="options-size" id="size1" autocomplete="off" value="1">
+        <input type="radio" class="btn-check" name="options-size" id="size1" autocomplete="off" value="TAKEOUT">
         <label class="btn btn-outline-success mt-1" for="size1">테이크아웃 전용🏝</label>
 
-        <input type="radio" class="btn-check" name="options-size" id="size2" autocomplete="off" value="2">
+        <input type="radio" class="btn-check" name="options-size" id="size2" autocomplete="off" value="SMALL">
         <label class="btn btn-outline-success mt-1" for="size2">소형(1~8)🏠</label>
 
-        <input type="radio" class="btn-check" name="options-size" id="size3" autocomplete="off" value="3">
+        <input type="radio" class="btn-check" name="options-size" id="size3" autocomplete="off" value="MEDIUM">
         <label class="btn btn-outline-success mt-1" for="size3">중형(9~16)🏘</label>
 
-        <input type="radio" class="btn-check" name="options-size" id="size4" autocomplete="off" value="4">
+        <input type="radio" class="btn-check" name="options-size" id="size4" autocomplete="off" value="LARGE">
         <label class="btn btn-outline-success mt-1" for="size4">대형🏰</label>
 
         <div>매장층수🏔</div>
-        <input type="radio" class="btn-check" name="options-floor" id="floor1" autocomplete="off" value="1">
+        <input type="radio" class="btn-check" name="options-floor" id="floor1" autocomplete="off" value="FIRST">
         <label class="btn btn-outline-success mt-1" for="floor1">1층🚶‍♂️</label>
 
-        <input type="radio" class="btn-check" name="options-floor" id="floor2" autocomplete="off" value="2">
+        <input type="radio" class="btn-check" name="options-floor" id="floor2" autocomplete="off" value="SECOND">
         <label class="btn btn-outline-success mt-1" for="floor2">2층🪂</label>
 
-        <input type="radio" class="btn-check" name="options-floor" id="floor3" autocomplete="off" value="3">
+        <input type="radio" class="btn-check" name="options-floor" id="floor3" autocomplete="off" value="THIRD">
         <label class="btn btn-outline-success mt-1" for="floor3">3층✈</label>
 
-        <input type="radio" class="btn-check" name="options-floor" id="floor4" autocomplete="off" value="4">
+        <input type="radio" class="btn-check" name="options-floor" id="floor4" autocomplete="off" value="MORE">
         <label class="btn btn-outline-success mt-1" for="floor4">그 이상🛰</label>
 
         <div>콘센트(개수)🔌</div>
@@ -126,7 +125,7 @@
         <div class="form-floating">
             <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
                       style="height: 200px"></textarea>
-            <label for="floatingTextarea">어떠셨나요? 평가를 남겨주세요!</label>
+            <label for="floatingTextarea">평가를 남겨주세요! (필수 아님)</label>
         </div>
 
         <button type="button" class="btn btn-outline-success" onclick="register()">등 록</button>
@@ -194,66 +193,157 @@
         // 좌측 카페리스트에서 카페 클릭시 호출되는 함수
         function cafeInfo(cafeId) {
 
-            // 리뷰쓰기 화면 닫기
-            // document.getElementById("overlay3").style.display = "none";
-            closeReview();
+            closeReview(); // 기존 리뷰쓰기 화면 close
 
-            // 이전 선택 항목 non active 상태로 변경
+            // 이전에 선택한 카페가 있다면 non active 상태로 변경 (닫기버튼 안 누르고 리스트에서 바로 다른 카페 눌러서 이동할 때)
             let beforeP = document.getElementById("cafeInfoId");
             if (!!beforeP) {
                 var beforeCafeId = beforeP.innerText;
-
                 let beforeA = document.getElementById(beforeCafeId);
                 if (!!beforeA) {
                     beforeA.className = "list-group-item list-group-item-action";
                 }
             }
 
-            // 선택한 항목 active 상태로 변경
+            // 리스트에서 선택한 카페 active 상태로 변경
             let a = document.getElementById(cafeId);
             a.className = "list-group-item list-group-item-action active";
 
-            openCafeInfo(); // 리뷰 overlay 보이도록
+            openCafeInfo(); // 카페정보 화면 open
 
+            // 카페 정보 fetch
             postData("http://localhost/cafe/" + cafeId, {}).then((data) => {
                 console.log(data); // JSON data parsed by `data.json()` call
 
-                // 기존 내용 지우기
-                // 카페 정보 삭제
-                let cafeInfoDiv = document.getElementById("cafeInfo");
-                cafeInfoDiv.replaceChildren();
-                // 리뷰 목록 삭제
-                let reviewList = document.getElementById("reviewList");
-                reviewList.replaceChildren();
-
                 // 받아온 내용 추가
+                let cafeInfoDiv = document.getElementById("cafeInfo"); // 카페정보
+                let reviewHeader = document.getElementById("reviewHeader"); // 리뷰헤더 (리뷰건수 표기)
+                let reviewList = document.getElementById("reviewList"); // 리뷰목록
+
+                // 카페정보 버튼으로 보여주기
+                let buttonHtml =  buttonMaker(data.cafeDto.storeSize, data.cafeDto.floor, data.cafeDto.consentScoreRep, data.cafeDto.wifiScoreRep, data.cafeDto.comfortScoreRep);
+
                 // 카페 정보 세팅
                 let html = `<div class="card-body text-success">
                                 <p hidden="hidden" id="cafeInfoId">${data.cafeDto.cafeId}</p>
                                 <h5 class="card-title">${data.cafeDto.cafeNm}</h5>
-                                <p class="card-text" style="white-space: pre-line">지점명: ${data.cafeDto.brchNm} \n건물명: ${data.cafeDto.bldNm} \n업종: ${data.cafeDto.indsSclsNm} \n주소: ${data.cafeDto.rdnmAdr}</p>
-                            </div>
+                                <p class="card-text">
+                                    지점명: ${data.cafeDto.brchNm}<br>
+                                    건물명: ${data.cafeDto.bldNm}<br>
+                                    업종: ${data.cafeDto.indsSclsNm}<br>
+                                    주소: ${data.cafeDto.rdnmAdr}<br>
+                                </p>`
+                                + buttonHtml +
+                            `</div>
                             <div class="card-footer bg-transparent border-success">정보 수정요청</div>`;
                 cafeInfoDiv.innerHTML = html;
 
                 // 리뷰 건수 세팅
                 html = `<span>리뷰 ${data.reviewDTOList.length}건</span><button type="button" class="btn btn-outline-success" onclick="openReview()">평가 남기기</button>`;
-                document.getElementById("reviewHeader").innerHTML = html;
+                reviewHeader.innerHTML = html;
 
                 // 리뷰 정보 세팅
                 html = ``;
                 for (var i = 0; i < data.reviewDTOList.length; i++) {
-                    html += `<li class="list-group-item list-group-item-action">
+
+                    buttonHtml =  buttonMaker(data.reviewDTOList[i].storeSize, data.reviewDTOList[i].floor, data.reviewDTOList[i].consentScore, data.reviewDTOList[i].wifiScore, data.reviewDTOList[i].comfortScore);
+                    html += `<li class="list-group-item">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">${data.reviewDTOList[i].userId}</h5>
                                     <small>작성일</small>
-                                </div><p class="mb-1">${data.reviewDTOList[i].content}</p>
-                             </li>`;
+                                </div>
+                                <p class="mb-1">${data.reviewDTOList[i].content}</p>`
+                              + buttonHtml +
+                             `</li>`;
                 }
                 reviewList.innerHTML = html;
 
             });
 
+        }
+
+        // 카페정보 & 리뷰에서 사용자가 선택한 버튼 HTML 만들어 주는 함수
+        function buttonMaker(storeSize,floor,consent,wifi,confort){
+
+            let buttonTemplate =  `<button type="button" class="btn btn-outline-success mt-1 me-1">`;
+            let buttonHtml = ``;
+
+            // 매장크기
+            if(!!storeSize) {
+                buttonHtml += buttonTemplate;
+                if (storeSize == 'TAKEOUT') {
+                    buttonHtml += `테이크아웃 전용🏝`;
+                } else if (storeSize == 'SMALL') {
+                    buttonHtml += `소형(1~8)🏠`;
+                } else if (storeSize == 'MEDIUM') {
+                    buttonHtml += `중형(9~16)🏘`;
+                } else if (storeSize == 'LARGE') {
+                    buttonHtml += `대형🏰`;
+                }
+                buttonHtml += `</button>`;
+            }
+
+            // 층수
+            if(!!floor) {
+                buttonHtml += buttonTemplate;
+                if (floor == 'FIRST') {
+                    buttonHtml += `1층🚶‍♂️`;
+                } else if (floor == 'SECOND') {
+                    buttonHtml += `2층🪂`;
+                } else if (floor == 'THIRD') {
+                    buttonHtml += `3층✈`;
+                } else if (floor == 'MORE') {
+                    buttonHtml += `그 이상🛰`;
+                }
+                buttonHtml += `</button>`;
+            }
+
+            // 콘센트
+            if(!!consent) {
+                buttonHtml += buttonTemplate;
+                if (consent == '1') {
+                    buttonHtml += `콘센트가 없어요🚫`;
+                } else if (consent == '2') {
+                    buttonHtml += `콘센트가 적은 편이에요(1~5)☁`;
+                } else if (consent == '3') {
+                    buttonHtml += `콘센트가 적당히 많아요(6~10)🌩`;
+                } else if (consent == '4') {
+                    buttonHtml += `콘센트가 아주 많아요!⚡`;
+                }
+                buttonHtml += `</button>`;
+            }
+
+            // 와이파이
+            if(!!wifi) {
+                buttonHtml += buttonTemplate;
+                if (wifi == '1') {
+                    buttonHtml += `와이파이가 없어요🚫`;
+                } else if (wifi == '2') {
+                    buttonHtml += `와이파이가 끊기거나 느려요🛴`;
+                } else if (wifi == '3') {
+                    buttonHtml += `와이파이가 원활해요🚗`;
+                } else if (wifi == '4') {
+                    buttonHtml += `와이파이가 쾌적해요!🚀`;
+                }
+                buttonHtml += `</button>`;
+            }
+
+            // 편안함
+            if(!!confort) {
+                buttonHtml += buttonTemplate;
+                if (confort == '1') {
+                    buttonHtml += `좌석이 불편해요🧗`;
+                } else if (confort == '2') {
+                    buttonHtml += `편하진 않은데 앉을만해요🤸`;
+                } else if (confort == '3') {
+                    buttonHtml += `좌석이 편안해요🧘`;
+                } else if (confort == '4') {
+                    buttonHtml += `좌석이 안락해요!🛌`;
+                }
+                buttonHtml += `</button>`;
+            }
+
+            return buttonHtml;
         }
 
         // 카페 정보 open
@@ -310,8 +400,8 @@
             console.log(`Longitude: ${crd.longitude}`);
             console.log(`More or less ${crd.accuracy} meters.`);
 
-            map.setCenter(new naver.maps.LatLng(crd.latitude, crd.longitude)); // 중심 좌표 이동
-            // map.setCenter(new naver.maps.LatLng(37.5594976, 127.1488309)); // 중심 좌표 이동 (고덕)
+            // map.setCenter(new naver.maps.LatLng(crd.latitude, crd.longitude)); // 중심 좌표 이동
+            map.setCenter(new naver.maps.LatLng(37.5594976, 127.1488309)); // 중심 좌표 이동 (고덕)
 
             // 현재 위치
             // var marker = new naver.maps.Marker({
@@ -518,19 +608,40 @@
             console.warn(`ERROR(${err.code}): ${err.message}`);
         }
 
+        // null먼저 체크한 후에 value로 값받아서 리턴하는 함수
+        function nullCheckBeforeValue(checked){
+            if(!!checked){
+                return checked.value;
+            }else{
+                return null;
+            }
+        }
+
         function register() {
-            var storeSize = document.querySelector('input[name="options-size"]:checked').value;
-            var floor = document.querySelector('input[name="options-floor"]:checked').value;
-            var consentScore = document.querySelector('input[name="options-consent"]:checked').value;
-            var wifiScore = document.querySelector('input[name="options-wifi"]:checked').value;
-            var comfortScore = document.querySelector('input[name="options-comfort"]:checked').value;
+            var storeSize = nullCheckBeforeValue(document.querySelector('input[name="options-size"]:checked'));
+            var floor = nullCheckBeforeValue(document.querySelector('input[name="options-floor"]:checked'));
+            var consentScore = nullCheckBeforeValue(document.querySelector('input[name="options-consent"]:checked'));
+            var wifiScore = nullCheckBeforeValue(document.querySelector('input[name="options-wifi"]:checked'));
+            var comfortScore = nullCheckBeforeValue(document.querySelector('input[name="options-comfort"]:checked'));
             var content = document.getElementById("floatingTextarea").value;
             var cafeId = document.getElementById("cafeInfoId").innerText;
+
+            // 선택항목 전부 체크했는데 확인 (텍스트는 필수 아님)
+            if(!storeSize ||
+                !floor ||
+                !consentScore ||
+                !wifiScore ||
+                !comfortScore ||
+                !cafeId
+            ){
+                alert('선택하지 않은 항목이 있습니다!');
+                return;
+            }
 
             var json = {
                 'userId': 1,
                 'cafeId': cafeId,
-                'storeSize': 'SMALL',
+                'storeSize': storeSize,
                 'floor': floor,
                 'consentScore': consentScore, 'wifiScore': wifiScore, 'comfortScore': comfortScore,
                 'content': content
@@ -540,7 +651,7 @@
 
             postData("http://localhost/review/register", json).then((data) => {
                 console.log(data); // JSON data parsed by `data.json()` call
-                // cafeInfo(cafeId);
+                cafeInfo(cafeId);
             });
         }
 

@@ -1,5 +1,6 @@
 package com.wanja727.kgjguide.dto;
 
+import com.wanja727.kgjguide.constant.Floor;
 import com.wanja727.kgjguide.constant.StoreSize;
 import com.wanja727.kgjguide.entity.Cafe;
 import com.wanja727.kgjguide.entity.Users;
@@ -20,13 +21,13 @@ public class ReviewDTO {
 
     private StoreSize storeSize;
 
-    private Long floor;
+    private Floor floor;
 
-    private float consentScore;
+    private int consentScore;
 
-    private float wifiScore;
+    private int wifiScore;
 
-    private float comfortScore;
+    private int comfortScore;
 
     private String content;
 
