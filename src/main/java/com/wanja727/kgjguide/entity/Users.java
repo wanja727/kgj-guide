@@ -37,4 +37,15 @@ public class Users extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Authority authority;
+
+    public Users update(String name, String picture) {
+        this.name = name;
+        this.picture = picture;
+
+        return this;
+    }
+
+    public String getRoleKey() {
+        return this.role.getKey();
+    }
 }

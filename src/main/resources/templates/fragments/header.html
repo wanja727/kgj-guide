@@ -30,6 +30,21 @@
                         <a class="nav-link" href="#">Admin</a>
                     </li>
 
+                    <div class="col-md-7">
+
+                        <div th:if="${not #strings.isEmpty(userName)}" class="center">
+                            <span th:text="${userName}+'님 안녕하세요!'" id="user">user</span>
+                            <a href="/logout" class="btn btn-info active" role="button">Logout</a>
+                        </div>
+
+                        <div th:unless="${not #strings.isEmpty(userName)}" class="center">
+                            <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
+                        </div>
+
+                    <!--<a href="/oauth2/authorization/naver" class="btn btn-secondary active" role="button">Naver Login</a>-->
+
+                    </div>
+
 <!--                    <li class="nav-item dropdown">-->
 <!--                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"-->
 <!--                           aria-expanded="false">-->
