@@ -36,13 +36,7 @@ dependencies {
 //	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	implementation 'org.postgresql:postgresql'
 	runtimeOnly 'org.postgresql:postgresql'
-//	implementation group: 'org.hibernate', name: 'hibernate-spatial'
-//	implementation 'org.hibernate.orm:hibernate-spatial'
 	implementation 'org.hibernate:hibernate-spatial'
-
-//	implementation 'org.hibernate.orm:hibernate-spatial'
-
-//	implementation 'org.locationtech.jts:jts-core'
 
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -53,6 +47,9 @@ dependencies {
 	implementation 'org.modelmapper:modelmapper:3.1.0'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	annotationProcessor(
