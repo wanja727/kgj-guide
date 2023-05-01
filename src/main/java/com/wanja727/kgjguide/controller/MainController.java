@@ -29,6 +29,7 @@ public class MainController {
         System.out.println("user = " + user);
         if (user != null) {
             model.addAttribute("userName", user.getName());
+            model.addAttribute("userEmail", user.getEmail());
         }
 
         return "main";

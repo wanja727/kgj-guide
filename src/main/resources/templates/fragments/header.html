@@ -3,16 +3,16 @@
 
 <div th:fragment="header">
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand bg-body-tertiary"><!--navbar-expand-lg-->
         <div class="container-fluid">
             <a class="navbar-brand" href="#">카공족을 위한 안내서</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+<!--            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"-->
+<!--                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"-->
+<!--                    aria-expanded="false" aria-label="Toggle navigation">-->
+<!--                <span class="navbar-toggler-icon"></span>-->
+<!--            </button>-->
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav me-auto mb-lg-0"><!--mb-2-->
 
 <!--                    <li class="nav-item">-->
 <!--                        <a class="nav-link active" aria-current="page" href="#">Home</a>-->
@@ -34,11 +34,11 @@
 
                         <div th:if="${not #strings.isEmpty(userName)}" class="center">
                             <span th:text="${userName}+'님 안녕하세요!'" id="user">user</span>
-                            <a href="/logout" class="btn btn-info active" role="button">Logout</a>
+                            <a href="/logout" class="btn btn-outline-success" role="button">Logout</a><!--btn-info active-->
                         </div>
 
                         <div th:unless="${not #strings.isEmpty(userName)}" class="center">
-                            <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
+                            <a href="/oauth2/authorization/google" class="btn btn-outline-success" role="button">Google Login</a><!-- btn-success active-->
                         </div>
 
                     <!--<a href="/oauth2/authorization/naver" class="btn btn-secondary active" role="button">Naver Login</a>-->

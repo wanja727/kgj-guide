@@ -134,6 +134,26 @@
 
     <div id="map" class="" style="width: calc(100% - 315px);height: calc(100vh - 56px);"></div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+<!--                <div class="modal-header">-->
+<!--                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>-->
+<!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--                </div>-->
+                <div class="modal-body">
+                    해당 기능은 로그인이 필요합니다.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+<!--                    <button type="button" class="btn btn-primary">로그인 하기</button>-->
+                    <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">로그인 하기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         var MARKER_ICON_URL = 'https://ssl.pstatic.net/static/maps/img/icons/sp_pins_spot_v3.png';
         var MARKER_HIGHLIGHT_ICON_URL = 'https://ssl.pstatic.net/static/maps/img/icons/sp_pins_spot_v3_over.png';
@@ -239,7 +259,10 @@
                 cafeInfoDiv.innerHTML = html;
 
                 // 리뷰 건수 세팅
-                html = `<span>리뷰 ${data.reviewDTOList.length}건</span><button type="button" class="btn btn-outline-success" onclick="openReview()">평가 남기기</button>`;
+                html = `<span>리뷰 ${data.reviewDTOList.length}건</span><button type="button" class="btn btn-outline-success" onclick="loginCheck('review')">리뷰 쓰기</button>`;
+                //onclick="openReview()
+                //loginCheck()
+                //data-bs-toggle="modal" data-bs-target="#exampleModal"
                 reviewHeader.innerHTML = html;
 
                 // 리뷰 정보 세팅
@@ -265,7 +288,7 @@
         // 카페정보 & 리뷰에서 사용자가 선택한 버튼 HTML 만들어 주는 함수
         function buttonMaker(storeSize,floor,consent,wifi,confort){
 
-            let buttonTemplate =  `<button type="button" class="btn btn-outline-success mt-1 me-1">`;
+            let buttonTemplate =  `<button type="button" class="btn btn-outline-success p-1 mt-1 me-1" style="pointer-events: none;">`;
             let buttonHtml = ``;
 
             // 매장크기
@@ -293,7 +316,7 @@
                 } else if (floor == 'THIRD') {
                     buttonHtml += `3층✈`;
                 } else if (floor == 'MORE') {
-                    buttonHtml += `그 이상🛰`;
+                    buttonHtml += `4층 이상🛰`;
                 }
                 buttonHtml += `</button>`;
             }
@@ -428,7 +451,7 @@
 
                     // 리스트 삭제
                     let cafeList = document.getElementById("cafeList");
-                    cafeList.replaceChildren();
+                    // cafeList.replaceChildren();
 
                     // 마커 삭제
                     for (var i = 0; i < markers.length; i++) {
@@ -455,6 +478,8 @@
                         fillOpacity: 0.3
                     });
 
+                    listHtml = ``; // 리스트 HTML 태그
+
                     // 신규 마커와 리스트 추가
                     for (var key in data) {
 
@@ -475,6 +500,7 @@
                         // }
 
 
+
                         var markerContent = [
                                 '<div style="position:absolute;">',
                                 // '<div class="infowindow" style="display:none;position:absolute;width:220px;height:20px;top:-46px;left:-100px;background-color:white;z-index:1;border:1px solid black;margin:0;padding:0;">',
@@ -486,7 +512,10 @@
                                 '<div class="pin_s" style="cursor: pointer; width: 22px; height: 30px;">',
                                 // '<img src="https://ssl.pstatic.net/static/maps/img/icons/pin_s_3.png" alt="" style="margin: 0px; padding: 0px; border: 0px solid transparent; display: block; max-width: none; max-height: none; -webkit-user-select: none; position: absolute; width: 22px; height: 30px; left: 0px; top: 0px;">',
                                 // '<div class="pins_s_tooltip" style="display:none;width:150px;height:20px;position:absolute;top:5px;left:25px;font-size: 12px;">' + data[key].cafeNm + '</div>',
-                                '<div class="pins_s_tooltip" style="border-radius: 25px;width:max-content;height:max-content;position:absolute;margin: 0px; padding: 0px 7px;border: 1px solid;font-size: 12px;font-weight: bold;background-color: white;white-space: pre-wrap;">' + data[key].cafeNm + '\n대형 콘센트:많음 wifi:원활 좌석:편안' + '</div>',
+                                '<div class="pins_s_tooltip" style="border-radius: 25px;width:max-content;height:max-content;position:absolute;margin: 0px; padding: 0px 7px;border: 1px solid;font-size: 12px;font-weight: bold;background-color: white;">' +
+                                    data[key].cafeNm + '<br>' +
+                                    '대형 콘센트:많음 wifi:원활 좌석:편안' +
+                                '</div>',
                                 '</div>',
                                 '</div>'
                             ].join(''),
@@ -538,42 +567,28 @@
 
                         // infowindow.open(map, marker);
 
-                        // let li = document.createElement("li");
-                        // li.className = "list-group-item";
-                        // li.innerText = data[key].cafeNm;
-                        // cafeList.append(li);
+                        let reviewCntHtml = ``;
+                        if(data[key].reviewCnt > 0){
+                            reviewCntHtml = `<span class="badge bg-primary rounded-pill">${data[key].reviewCnt}</span>`;
+                        }else{
+                            reviewCntHtml = `<small>리뷰없음</small>`;
+                        }
 
-                        let a = document.createElement("a");
-                        a.href = "javascript:cafeInfo(" + data[key].cafeId + ");" //"#";
-                        // a.onclick = "cafeInfo()";
-                        a.id = data[key].cafeId;
-                        a.className = "list-group-item list-group-item-action"
+                        listHtml += `<a href="javascript:cafeInfo(${data[key].cafeId});" id=${data[key].cafeId} class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">${data[key].cafeNm}</h5>`
+                                            + reviewCntHtml +
+                                        `</div>
+                                        <p class="mb-1">대형 콘센트:많음 wifi:원활 좌석:편안</p>
+                                     </a>`;
 
-                        let div = document.createElement("div");
-                        div.className = "d-flex w-100 justify-content-between";
-
-                        let h5 = document.createElement("h5");
-                        h5.className = "mb-1";
-                        h5.innerText = data[key].cafeNm;
-
-                        let small = document.createElement("small");
-                        small.innerText = "리뷰없음"
-
-                        let p = document.createElement("p");
-                        p.className = "mb-1";
-                        p.innerText = "대형 콘센트:많음 wifi:원활 좌석:편안";
-
-                        div.append(h5);
-                        div.append(small);
-                        a.append(div);
-                        a.append(p);
-
-                        cafeList.append(a);
 
                         // markers.push(marker);
                         markers.push(htmlMarker);
                         // infoWindows.push(infowindow);
                     }
+
+                    cafeList.innerHTML = listHtml;
 
                     // var overlapCoverMarker = null;
                     //
@@ -651,8 +666,26 @@
 
             postData("http://localhost/review/register", json).then((data) => {
                 console.log(data); // JSON data parsed by `data.json()` call
-                cafeInfo(cafeId);
+                cafeInfo(cafeId);  // 리뷰 등록후에 카페정보 reload
             });
+        }
+
+        function loginCheck(action) {
+            let user = document.getElementById("user");
+
+            // 로그인 했으면
+            if(!!user){
+                // 리뷰 작성으로 이동
+                if(action == 'review'){
+                    openReview();
+                }else if(action == 'mypage'){
+
+                }
+            }else{
+                // 로그인 요청 모달 show
+                var myModal = new bootstrap.Modal(document.getElementById("exampleModal"), {});
+                myModal.show();
+            }
         }
 
     </script>

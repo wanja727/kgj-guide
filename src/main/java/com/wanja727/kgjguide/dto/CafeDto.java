@@ -44,4 +44,6 @@ public class CafeDto {
     private int wifiScoreRep;
 
     private int comfortScoreRep;
+
+    private int reviewCnt;
 }

@@ -37,12 +37,16 @@ public class CafeService {
         List<CafeDto> cafeList = cafeRepository.getCafeList(currPoint);
         log.info("cafeList.size() = " + cafeList.size());
 
+
+
+
         cafeList.forEach(cafeDto -> {
             Geometry latlng = cafeDto.getGeometry();
             double x = latlng.getCoordinate().getX();
             double y = latlng.getCoordinate().getY();
             cafeDto.setLat(y);
             cafeDto.setLng(x);
+            cafeDto.setReviewCnt(reviewRepository.findByCafeCafeId(cafeDto.getCafeId()).size()); // 리뷰 개수 세팅
         });
 
         return cafeList;
