@@ -9,6 +9,24 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <title>내 주변 카페</title>
+    <style>
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #969faf;
+            border: 3px solid #f5f6f7;
+            border-radius: 20px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .list-group-item.active{
+            background-color: #198754;
+            border-color: #198754;
+        }
+    </style>
     <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
     <script type="text/javascript"
             src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=qb8k02fqhx"></script>
@@ -57,78 +75,80 @@
             </ol>
         </nav>
 
-        <div>매장크기(테이블)🏢</div>
-        <input type="radio" class="btn-check" name="options-size" id="size1" autocomplete="off" value="TAKEOUT">
-        <label class="btn btn-outline-success mt-1" for="size1">테이크아웃 전용🏝</label>
+        <div class="p-2 pb-5 mb-5">
+            <div class="fw-bold">매장크기(테이블)🏢</div>
+            <input type="radio" class="btn-check" name="options-size" id="size1" autocomplete="off" value="TAKEOUT">
+            <label class="btn btn-outline-success mt-1" for="size1">테이크아웃 전용🏝</label>
 
-        <input type="radio" class="btn-check" name="options-size" id="size2" autocomplete="off" value="SMALL">
-        <label class="btn btn-outline-success mt-1" for="size2">소형(1~8)🏠</label>
+            <input type="radio" class="btn-check" name="options-size" id="size2" autocomplete="off" value="SMALL">
+            <label class="btn btn-outline-success mt-1" for="size2">소형(1~8)🏠</label>
 
-        <input type="radio" class="btn-check" name="options-size" id="size3" autocomplete="off" value="MEDIUM">
-        <label class="btn btn-outline-success mt-1" for="size3">중형(9~16)🏘</label>
+            <input type="radio" class="btn-check" name="options-size" id="size3" autocomplete="off" value="MEDIUM">
+            <label class="btn btn-outline-success mt-1" for="size3">중형(9~16)🏘</label>
 
-        <input type="radio" class="btn-check" name="options-size" id="size4" autocomplete="off" value="LARGE">
-        <label class="btn btn-outline-success mt-1" for="size4">대형🏰</label>
+            <input type="radio" class="btn-check" name="options-size" id="size4" autocomplete="off" value="LARGE">
+            <label class="btn btn-outline-success mt-1" for="size4">대형🏰</label>
 
-        <div>매장층수🏔</div>
-        <input type="radio" class="btn-check" name="options-floor" id="floor1" autocomplete="off" value="FIRST">
-        <label class="btn btn-outline-success mt-1" for="floor1">1층🚶‍♂️</label>
+            <div class="fw-bold mt-2">매장층수🏔</div>
+            <input type="radio" class="btn-check" name="options-floor" id="floor1" autocomplete="off" value="FIRST">
+            <label class="btn btn-outline-success mt-1" for="floor1">1층🚶‍♂️</label>
 
-        <input type="radio" class="btn-check" name="options-floor" id="floor2" autocomplete="off" value="SECOND">
-        <label class="btn btn-outline-success mt-1" for="floor2">2층🪂</label>
+            <input type="radio" class="btn-check" name="options-floor" id="floor2" autocomplete="off" value="SECOND">
+            <label class="btn btn-outline-success mt-1" for="floor2">2층🪂</label>
 
-        <input type="radio" class="btn-check" name="options-floor" id="floor3" autocomplete="off" value="THIRD">
-        <label class="btn btn-outline-success mt-1" for="floor3">3층✈</label>
+            <input type="radio" class="btn-check" name="options-floor" id="floor3" autocomplete="off" value="THIRD">
+            <label class="btn btn-outline-success mt-1" for="floor3">3층✈</label>
 
-        <input type="radio" class="btn-check" name="options-floor" id="floor4" autocomplete="off" value="MORE">
-        <label class="btn btn-outline-success mt-1" for="floor4">그 이상🛰</label>
+            <input type="radio" class="btn-check" name="options-floor" id="floor4" autocomplete="off" value="MORE">
+            <label class="btn btn-outline-success mt-1" for="floor4">그 이상🛰</label>
 
-        <div>콘센트(개수)🔌</div>
-        <input type="radio" class="btn-check" name="options-consent" id="consent1" autocomplete="off" value="1">
-        <label class="btn btn-outline-success mt-1" for="consent1">콘센트가 없어요🚫</label><!--🌫-->
+            <div class="fw-bold mt-2">콘센트(개수)🔌</div>
+            <input type="radio" class="btn-check" name="options-consent" id="consent1" autocomplete="off" value="1">
+            <label class="btn btn-outline-success mt-1" for="consent1">콘센트가 없어요🚫</label><!--🌫-->
 
-        <input type="radio" class="btn-check" name="options-consent" id="consent2" autocomplete="off" value="2">
-        <label class="btn btn-outline-success mt-1" for="consent2">적은 편이에요(1~5)☁</label>
+            <input type="radio" class="btn-check" name="options-consent" id="consent2" autocomplete="off" value="2">
+            <label class="btn btn-outline-success mt-1" for="consent2">적은 편이에요(1~5)☁</label>
 
-        <input type="radio" class="btn-check" name="options-consent" id="consent3" autocomplete="off" value="3">
-        <label class="btn btn-outline-success mt-1" for="consent3">적당히 많아요(6~10)🌩</label>
+            <input type="radio" class="btn-check" name="options-consent" id="consent3" autocomplete="off" value="3">
+            <label class="btn btn-outline-success mt-1" for="consent3">적당히 많아요(6~10)🌩</label>
 
-        <input type="radio" class="btn-check" name="options-consent" id="consent4" autocomplete="off" value="4">
-        <label class="btn btn-outline-success mt-1" for="consent4">아주 많아요!⚡</label>
+            <input type="radio" class="btn-check" name="options-consent" id="consent4" autocomplete="off" value="4">
+            <label class="btn btn-outline-success mt-1" for="consent4">아주 많아요!⚡</label>
 
-        <div>와이파이📡</div>
-        <input type="radio" class="btn-check" name="options-wifi" id="wifi1" autocomplete="off" value="1">
-        <label class="btn btn-outline-success mt-1" for="wifi1">와이파이가 없어요🚫</label>
+            <div class="fw-bold mt-2">와이파이📡</div>
+            <input type="radio" class="btn-check" name="options-wifi" id="wifi1" autocomplete="off" value="1">
+            <label class="btn btn-outline-success mt-1" for="wifi1">와이파이가 없어요🚫</label>
 
-        <input type="radio" class="btn-check" name="options-wifi" id="wifi2" autocomplete="off" value="2">
-        <label class="btn btn-outline-success mt-1" for="wifi2">끊기거나 느려요🛴</label><!--🛵-->
+            <input type="radio" class="btn-check" name="options-wifi" id="wifi2" autocomplete="off" value="2">
+            <label class="btn btn-outline-success mt-1" for="wifi2">끊기거나 느려요🛴</label><!--🛵-->
 
-        <input type="radio" class="btn-check" name="options-wifi" id="wifi3" autocomplete="off" value="3">
-        <label class="btn btn-outline-success mt-1" for="wifi3">원활해요🚗</label>
+            <input type="radio" class="btn-check" name="options-wifi" id="wifi3" autocomplete="off" value="3">
+            <label class="btn btn-outline-success mt-1" for="wifi3">원활해요🚗</label>
 
-        <input type="radio" class="btn-check" name="options-wifi" id="wifi4" autocomplete="off" value="4">
-        <label class="btn btn-outline-success mt-1" for="wifi4">쾌적해요!🚀</label>
+            <input type="radio" class="btn-check" name="options-wifi" id="wifi4" autocomplete="off" value="4">
+            <label class="btn btn-outline-success mt-1" for="wifi4">쾌적해요!🚀</label>
 
-        <div>좌석과 테이블의 편안함🪑</div>
-        <input type="radio" class="btn-check" name="options-comfort" id="comfort1" autocomplete="off" value="1">
-        <label class="btn btn-outline-success mt-1" for="comfort1">불편해요🧗</label>
+            <div class="fw-bold mt-2">좌석과 테이블의 편안함🪑</div>
+            <input type="radio" class="btn-check" name="options-comfort" id="comfort1" autocomplete="off" value="1">
+            <label class="btn btn-outline-success mt-1" for="comfort1">불편해요🧗</label>
 
-        <input type="radio" class="btn-check" name="options-comfort" id="comfort2" autocomplete="off" value="2">
-        <label class="btn btn-outline-success mt-1" for="comfort2">편하진 않은데 앉을만해요🤸</label>
+            <input type="radio" class="btn-check" name="options-comfort" id="comfort2" autocomplete="off" value="2">
+            <label class="btn btn-outline-success mt-1" for="comfort2">편하진 않은데 앉을만해요🤸</label>
 
-        <input type="radio" class="btn-check" name="options-comfort" id="comfort3" autocomplete="off" value="3">
-        <label class="btn btn-outline-success mt-1" for="comfort3">편안해요🧘</label>
+            <input type="radio" class="btn-check" name="options-comfort" id="comfort3" autocomplete="off" value="3">
+            <label class="btn btn-outline-success mt-1" for="comfort3">편안해요🧘</label>
 
-        <input type="radio" class="btn-check" name="options-comfort" id="comfort4" autocomplete="off" value="4">
-        <label class="btn btn-outline-success mt-1" for="comfort4">안락해요!🛌</label>
+            <input type="radio" class="btn-check" name="options-comfort" id="comfort4" autocomplete="off" value="4">
+            <label class="btn btn-outline-success mt-1" for="comfort4">안락해요!🛌</label>
 
-        <div class="form-floating">
+            <div class="form-floating mt-2">
             <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
                       style="height: 200px"></textarea>
-            <label for="floatingTextarea">평가를 남겨주세요! (필수 아님)</label>
-        </div>
+                <label for="floatingTextarea">평가를 남겨주세요! (필수 아님)</label>
+            </div>
 
-        <button type="button" class="btn btn-outline-success" onclick="register()">등 록</button>
+            <button type="button" class="btn btn-outline-success mt-2 float-end" onclick="register()">등 록</button>
+        </div>
 
     </div>
 
@@ -154,42 +174,7 @@
         </div>
     </div>
 
-    <script>
-        var MARKER_ICON_URL = 'https://ssl.pstatic.net/static/maps/img/icons/sp_pins_spot_v3.png';
-        var MARKER_HIGHLIGHT_ICON_URL = 'https://ssl.pstatic.net/static/maps/img/icons/sp_pins_spot_v3_over.png';
-
-        var map = new naver.maps.Map('map');
-        var markers = [], infoWindows = [];
-        var circle;
-
-        var recognizer = new MarkerOverlappingRecognizer({
-            highlightRect: false,
-            tolerance: 5
-        });
-
-        recognizer.setMap(map);
-
-        function highlightMarker(marker) {
-            var icon = marker.getIcon();
-
-            if (icon.url !== MARKER_HIGHLIGHT_ICON_URL) {
-                icon.url = MARKER_HIGHLIGHT_ICON_URL;
-                marker.setIcon(icon);
-            }
-
-            marker.setZIndex(1000);
-        }
-
-        function unhighlightMarker(marker) {
-            var icon = marker.getIcon();
-
-            if (icon.url === MARKER_HIGHLIGHT_ICON_URL) {
-                icon.url = MARKER_ICON_URL;
-                marker.setIcon(icon);
-            }
-
-            marker.setZIndex(100);
-        }
+    <script th:inline="javascript">
 
         // fetch 비동기호출
         async function postData(url = "", data = {}) {
@@ -210,7 +195,243 @@
             return response.json(); // parses JSON response into native JavaScript objects
         }
 
-        // 좌측 카페리스트에서 카페 클릭시 호출되는 함수
+        // NAVER Maps
+        var MARKER_ICON_URL = 'https://ssl.pstatic.net/static/maps/img/icons/sp_pins_spot_v3.png';
+        var MARKER_HIGHLIGHT_ICON_URL = 'https://ssl.pstatic.net/static/maps/img/icons/sp_pins_spot_v3_over.png';
+
+        var map = new naver.maps.Map('map');
+        var markers = [], infoWindows = [];
+        var circle;
+
+        var recognizer = new MarkerOverlappingRecognizer({
+            highlightRect: false,
+            tolerance: 5
+        });
+
+        recognizer.setMap(map);
+
+        // 마커 마우스오버시에 모양 변경 (현재 미사용)
+        function highlightMarker(marker) {
+            console.log(marker);
+
+            var icon = marker.getIcon();
+
+            if (icon.url !== MARKER_HIGHLIGHT_ICON_URL) {
+                icon.url = MARKER_HIGHLIGHT_ICON_URL;
+                marker.setIcon(icon);
+            }
+
+            marker.setZIndex(1000);
+        }
+
+        function unhighlightMarker(marker) {
+            console.log(marker);
+
+            var icon = marker.getIcon();
+
+            if (icon.url === MARKER_HIGHLIGHT_ICON_URL) {
+                icon.url = MARKER_ICON_URL;
+                marker.setIcon(icon);
+            }
+
+            marker.setZIndex(100);
+        }
+
+        // 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환합니다.
+        function getClickHandler(cafeId, lat, lng) {
+            return function(e) {
+                map.panTo(new naver.maps.LatLng(lat, lng));
+                cafeInfo(cafeId);
+            }
+        }
+
+        function dragend(){
+            var center = map.getCenter();
+            console.log('center: ' + center._lng + ' ' + center._lat);
+
+            // fetch 비동기 통신
+            postData("http://localhost/", {lng: center._lng, lat: center._lat}).then((data) => {
+                console.log(data); // JSON data parsed by `data.json()` call
+
+                // 이전 검색정보 삭제
+                // 반경 삭제
+                if (!!circle) {
+                    circle.setMap(null);
+                }
+
+                // 리스트 삭제
+                // let cafeList = document.getElementById("cafeList");
+                // cafeList.replaceChildren();
+
+                // 마커 삭제
+                for (var i = 0; i < markers.length; i++) {
+                    if (markers[i].setMap()) {
+                        markers[i].setMap(null);
+                    }
+                    recognizer.remove(markers[i]);
+                }
+
+                // 설명창 삭제
+                // for (var j = 0; j < infoWindows.length; j++) {
+                //     if (infoWindows[j].getMap()) {
+                //         infoWindows[j].close();
+                //     }
+                // }
+
+                // 신규 검색정보 추가
+                // 반경 추가
+                circle = new naver.maps.Circle({
+                    map: map,
+                    center: map.getCenter(),
+                    radius: 500,
+                    fillColor: '#d1e7dd',
+                    fillOpacity: 0.3,
+                    strokeColor: '#198754'
+                });
+
+                listHtml = ``; // 리스트 HTML 태그
+
+                // 신규 마커와 리스트 추가
+                for (var key in data) {
+
+                    // var position = new naver.maps.LatLng(
+                    //     data[key].lat,
+                    //     data[key].lng
+                    // );
+
+                    // var marker = new naver.maps.Marker({
+                    //     map: map,
+                    //     position: position,
+                    //     // title: key,
+                    //     zIndex: 100
+                    // });
+
+                    // if (!marker.setMap()) {
+                    //     marker.setMap(map);
+                    // }
+
+
+
+                    var markerContent = [
+                            '<div style="position:absolute;">',
+                            // '<div class="infowindow" style="display:none;position:absolute;width:220px;height:20px;top:-46px;left:-100px;background-color:white;z-index:1;border:1px solid black;margin:0;padding:0;">',
+                            // '<a href="#" class="spmc btn_clear">핀 삭제</a>',
+                            // '<div>HTML 마커 콘텐츠입니다.</div>',
+                            // '<div style="margin: 0px; padding: 0px; width: 0px; height: 0px; position: absolute; border-width: 24px 10px 0px; border-style: solid; border-color: rgb(51, 51, 51) transparent; border-image: initial; pointer-events: none; box-sizing: content-box !important; transform-origin: right bottom 0px; transform: skewX(0deg); bottom: -25px; left: 100px;"></div>',
+                            // '<div style="margin: 0px; padding: 0px; width: 0px; height: 0px; position: absolute; border-width: 24px 10px 0px; border-style: solid; border-color: rgb(255, 255, 255) transparent; border-image: initial; pointer-events: none; box-sizing: content-box !important; transform-origin: right bottom 0px; transform: skewX(0deg); bottom: -22px; left: 100px;"></div>',
+                            // '</div>',
+                            '<div class="pin_s" style="cursor: pointer; width: 22px; height: 30px;">',
+                            // '<img src="https://ssl.pstatic.net/static/maps/img/icons/pin_s_3.png" alt="" style="margin: 0px; padding: 0px; border: 0px solid transparent; display: block; max-width: none; max-height: none; -webkit-user-select: none; position: absolute; width: 22px; height: 30px; left: 0px; top: 0px;">',
+                            // '<div class="pins_s_tooltip" style="display:none;width:150px;height:20px;position:absolute;top:5px;left:25px;font-size: 12px;">' + data[key].cafeNm + '</div>',
+                            '<div class="pins_s_tooltip" style="border-radius: 25px;width:max-content;height:max-content;position:absolute;margin: 0px; padding: 0px 7px;border: 1px solid;font-size: 12px;font-weight: bold;background-color: white;">' +
+                            data[key].cafeNm + '<br>' +
+                            '대형 콘센트:많음 wifi:원활 좌석:편안' +
+                            '</div>',
+                            '</div>',
+                            '</div>'
+                        ].join(''),
+                        htmlMarker = new naver.maps.Marker({
+                            position: new naver.maps.LatLng(data[key].lat, data[key].lng),
+                            title: data[key].cafeNm,
+                            map: map,
+                            icon: {
+                                content: markerContent,
+                                highlight: false,
+                                size: new naver.maps.Size(22, 30),
+                                anchor: new naver.maps.Point(11, 30)
+                            }
+                        }),
+                        elHtmlMarker = htmlMarker.getElement();
+
+                    // $(elHtmlMarker).on('mouseenter', 'img', function (e) {
+                    //     console.log(e);
+                    //     $(elHtmlMarker).find('.pins_s_tooltip').show();
+                    // });
+
+                    // $(elHtmlMarker).on('mouseout', 'img', function (e) {
+                    //     $(elHtmlMarker).find('.pins_s_tooltip').hide();
+                    // });
+
+                    recognizer.add(htmlMarker);
+
+
+                    // var infoWindow = new naver.maps.InfoWindow({
+                    //     content: '<div style="width:150px;text-align:center;padding:10px;">The Letter is <b>"'+ key.substr(0, 1) +'"</b>.</div>'
+                    // });
+
+                    // var contentString = [
+                    //     '<div class="iw_inner">',
+                    //     '   <h3>'+data[key].cafeNm+'</h3>',
+                    //     '</div>'
+                    // ].join('');
+
+                    // var infowindow = new naver.maps.InfoWindow({
+                    //     content: contentString
+                    // });
+
+                    naver.maps.Event.addListener(htmlMarker, "click", getClickHandler(data[key].cafeId, data[key].lat, data[key].lng));
+
+                    // infowindow.open(map, marker);
+
+                    let reviewCntHtml = ``;
+                    if(data[key].reviewCnt > 0){
+                        reviewCntHtml = `<span class="badge bg-secondary rounded-pill">${data[key].reviewCnt}</span>`; //
+                    }else{
+                        reviewCntHtml = `<small></small>`; //리뷰없음
+                    }
+
+                    listHtml += `<a href="javascript:cafeInfo(${data[key].cafeId});" id=${data[key].cafeId} class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">${data[key].cafeNm}</h5>`
+                                        + reviewCntHtml +
+                                    `</div>
+                                    <p class="mb-1">대형 콘센트:많음 wifi:원활 좌석:편안</p>
+                                 </a>`;
+
+                    markers.push(htmlMarker);
+                    // infoWindows.push(infowindow);
+                }
+
+                cafeList.innerHTML = listHtml;
+
+                /*
+                var overlapCoverMarker = null;
+
+                naver.maps.Event.addListener(recognizer, 'overlap', function(list) {
+                    if (overlapCoverMarker) {
+                        unhighlightMarker(overlapCoverMarker);
+                    }
+
+                    overlapCoverMarker = list[0].marker;
+
+                    naver.maps.Event.once(overlapCoverMarker, 'mouseout', function() {
+                        highlightMarker(overlapCoverMarker);
+                    });
+                });
+
+                naver.maps.Event.addListener(recognizer, 'clickItem', function(e) {
+                    recognizer.hide();
+
+                    if (overlapCoverMarker) {
+                        unhighlightMarker(overlapCoverMarker);
+
+                        overlapCoverMarker = null;
+                    }
+                });
+                 */
+
+
+            });
+        }
+
+        // 지도 dragend 이벤트 등록
+        naver.maps.Event.addListener(map, 'dragend', function (e) {
+            // console.log(e.coord._lng + ' ' + e.coord._lat);
+
+            dragend();
+        });
+
+        // 카페정보 조회 (카페리스트에서 클릭시 호출되는 함수)
         function cafeInfo(cafeId) {
 
             closeReview(); // 기존 리뷰쓰기 화면 close
@@ -271,9 +492,9 @@
 
                     buttonHtml =  buttonMaker(data.reviewDTOList[i].storeSize, data.reviewDTOList[i].floor, data.reviewDTOList[i].consentScore, data.reviewDTOList[i].wifiScore, data.reviewDTOList[i].comfortScore);
                     html += `<li class="list-group-item">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">${data.reviewDTOList[i].userId}</h5>
-                                    <small>작성일</small>
+                                <div class="d-flex w-100 justify-content-between mb-1">
+                                    <h5 class="mb-1">${data.reviewDTOList[i].userEmailId}</h5>
+                                    <small>${data.reviewDTOList[i].regTime}</small>
                                 </div>
                                 <p class="mb-1">${data.reviewDTOList[i].content}</p>`
                               + buttonHtml +
@@ -426,197 +647,13 @@
             // map.setCenter(new naver.maps.LatLng(crd.latitude, crd.longitude)); // 중심 좌표 이동
             map.setCenter(new naver.maps.LatLng(37.5594976, 127.1488309)); // 중심 좌표 이동 (고덕)
 
-            // 현재 위치
+            // 현재 위치 지도에 표시 (초록색 점으로)
             // var marker = new naver.maps.Marker({
             //     position: new naver.maps.LatLng(crd.latitude, crd.longitude),
             //     map: map
             // })
 
-            // 드래그 끝나면
-            naver.maps.Event.addListener(map, 'dragend', function (e) {
-                // console.log(e.coord._lng + ' ' + e.coord._lat);
-
-                var center = map.getCenter();
-                console.log('center: ' + center._lng + ' ' + center._lat);
-
-                // fetch 비동기 통신
-                postData("http://localhost/", {lng: center._lng, lat: center._lat}).then((data) => {
-                    console.log(data); // JSON data parsed by `data.json()` call
-
-                    // 이전 검색정보 삭제
-                    // 반경 삭제
-                    if (!!circle) {
-                        circle.setMap(null);
-                    }
-
-                    // 리스트 삭제
-                    let cafeList = document.getElementById("cafeList");
-                    // cafeList.replaceChildren();
-
-                    // 마커 삭제
-                    for (var i = 0; i < markers.length; i++) {
-                        if (markers[i].setMap()) {
-                            markers[i].setMap(null);
-                        }
-                        recognizer.remove(markers[i]);
-                    }
-
-                    // 설명창 삭제
-                    // for (var j = 0; j < infoWindows.length; j++) {
-                    //     if (infoWindows[j].getMap()) {
-                    //         infoWindows[j].close();
-                    //     }
-                    // }
-
-                    // 신규 검색정보 추가
-                    // 반경 추가
-                    circle = new naver.maps.Circle({
-                        map: map,
-                        center: map.getCenter(),
-                        radius: 500,
-                        fillColor: 'Lavender',
-                        fillOpacity: 0.3
-                    });
-
-                    listHtml = ``; // 리스트 HTML 태그
-
-                    // 신규 마커와 리스트 추가
-                    for (var key in data) {
-
-                        // var position = new naver.maps.LatLng(
-                        //     data[key].lat,
-                        //     data[key].lng
-                        // );
-
-                        // var marker = new naver.maps.Marker({
-                        //     map: map,
-                        //     position: position,
-                        //     // title: key,
-                        //     zIndex: 100
-                        // });
-
-                        // if (!marker.setMap()) {
-                        //     marker.setMap(map);
-                        // }
-
-
-
-                        var markerContent = [
-                                '<div style="position:absolute;">',
-                                // '<div class="infowindow" style="display:none;position:absolute;width:220px;height:20px;top:-46px;left:-100px;background-color:white;z-index:1;border:1px solid black;margin:0;padding:0;">',
-                                // '<a href="#" class="spmc btn_clear">핀 삭제</a>',
-                                // '<div>HTML 마커 콘텐츠입니다.</div>',
-                                // '<div style="margin: 0px; padding: 0px; width: 0px; height: 0px; position: absolute; border-width: 24px 10px 0px; border-style: solid; border-color: rgb(51, 51, 51) transparent; border-image: initial; pointer-events: none; box-sizing: content-box !important; transform-origin: right bottom 0px; transform: skewX(0deg); bottom: -25px; left: 100px;"></div>',
-                                // '<div style="margin: 0px; padding: 0px; width: 0px; height: 0px; position: absolute; border-width: 24px 10px 0px; border-style: solid; border-color: rgb(255, 255, 255) transparent; border-image: initial; pointer-events: none; box-sizing: content-box !important; transform-origin: right bottom 0px; transform: skewX(0deg); bottom: -22px; left: 100px;"></div>',
-                                // '</div>',
-                                '<div class="pin_s" style="cursor: pointer; width: 22px; height: 30px;">',
-                                // '<img src="https://ssl.pstatic.net/static/maps/img/icons/pin_s_3.png" alt="" style="margin: 0px; padding: 0px; border: 0px solid transparent; display: block; max-width: none; max-height: none; -webkit-user-select: none; position: absolute; width: 22px; height: 30px; left: 0px; top: 0px;">',
-                                // '<div class="pins_s_tooltip" style="display:none;width:150px;height:20px;position:absolute;top:5px;left:25px;font-size: 12px;">' + data[key].cafeNm + '</div>',
-                                '<div class="pins_s_tooltip" style="border-radius: 25px;width:max-content;height:max-content;position:absolute;margin: 0px; padding: 0px 7px;border: 1px solid;font-size: 12px;font-weight: bold;background-color: white;">' +
-                                    data[key].cafeNm + '<br>' +
-                                    '대형 콘센트:많음 wifi:원활 좌석:편안' +
-                                '</div>',
-                                '</div>',
-                                '</div>'
-                            ].join(''),
-                            htmlMarker = new naver.maps.Marker({
-                                position: new naver.maps.LatLng(data[key].lat, data[key].lng),
-                                title: data[key].cafeNm,
-                                map: map,
-                                icon: {
-                                    content: markerContent,
-                                    size: new naver.maps.Size(22, 30),
-                                    anchor: new naver.maps.Point(11, 30)
-                                }
-                            }),
-                            elHtmlMarker = htmlMarker.getElement();
-
-                        // $(elHtmlMarker).on('mouseenter', 'img', function (e) {
-                        //     console.log(e);
-                        //     $(elHtmlMarker).find('.pins_s_tooltip').show();
-                        // });
-
-                        // $(elHtmlMarker).on('mouseout', 'img', function (e) {
-                        //     $(elHtmlMarker).find('.pins_s_tooltip').hide();
-                        // });
-
-                        recognizer.add(htmlMarker);
-
-
-                        // var infoWindow = new naver.maps.InfoWindow({
-                        //     content: '<div style="width:150px;text-align:center;padding:10px;">The Letter is <b>"'+ key.substr(0, 1) +'"</b>.</div>'
-                        // });
-
-                        // var contentString = [
-                        //     '<div class="iw_inner">',
-                        //     '   <h3>'+data[key].cafeNm+'</h3>',
-                        //     '</div>'
-                        // ].join('');
-
-                        // var infowindow = new naver.maps.InfoWindow({
-                        //     content: contentString
-                        // });
-
-                        // naver.maps.Event.addListener(marker, "click", function(e) {
-                        //     if (infowindow.getMap()) {
-                        //         infowindow.close();
-                        //     } else {
-                        //         infowindow.open(map, marker);
-                        //     }
-                        // });
-
-                        // infowindow.open(map, marker);
-
-                        let reviewCntHtml = ``;
-                        if(data[key].reviewCnt > 0){
-                            reviewCntHtml = `<span class="badge bg-primary rounded-pill">${data[key].reviewCnt}</span>`;
-                        }else{
-                            reviewCntHtml = `<small>리뷰없음</small>`;
-                        }
-
-                        listHtml += `<a href="javascript:cafeInfo(${data[key].cafeId});" id=${data[key].cafeId} class="list-group-item list-group-item-action">
-                                        <div class="d-flex w-100 justify-content-between">
-                                            <h5 class="mb-1">${data[key].cafeNm}</h5>`
-                                            + reviewCntHtml +
-                                        `</div>
-                                        <p class="mb-1">대형 콘센트:많음 wifi:원활 좌석:편안</p>
-                                     </a>`;
-
-
-                        // markers.push(marker);
-                        markers.push(htmlMarker);
-                        // infoWindows.push(infowindow);
-                    }
-
-                    cafeList.innerHTML = listHtml;
-
-                    // var overlapCoverMarker = null;
-                    //
-                    // naver.maps.Event.addListener(recognizer, 'overlap', function(list) {
-                    //     if (overlapCoverMarker) {
-                    //         unhighlightMarker(overlapCoverMarker);
-                    //     }
-                    //
-                    //     overlapCoverMarker = list[0].marker;
-                    //
-                    //     naver.maps.Event.once(overlapCoverMarker, 'mouseout', function() {
-                    //         highlightMarker(overlapCoverMarker);
-                    //     });
-                    // });
-                    //
-                    // naver.maps.Event.addListener(recognizer, 'clickItem', function(e) {
-                    //     recognizer.hide();
-                    //
-                    //     if (overlapCoverMarker) {
-                    //         unhighlightMarker(overlapCoverMarker);
-                    //
-                    //         overlapCoverMarker = null;
-                    //     }
-                    // });
-
-
-                });
-            });
+            dragend();
         }
 
         function error(err) {
@@ -654,7 +691,7 @@
             }
 
             var json = {
-                'userId': 1,
+                'userId': [[${userId}]],
                 'cafeId': cafeId,
                 'storeSize': storeSize,
                 'floor': floor,

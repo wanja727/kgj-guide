@@ -30,8 +30,8 @@ public class ReviewService {
 
     public Long register(ReviewDTO reviewDTO) {
 
-        Cafe cafe = cafeRepository.findById(reviewDTO.getCafeId()).orElseThrow(EntityNotFoundException::new);;
-        Users users = usersRepository.findById(1L).orElseThrow(EntityNotFoundException::new);
+        Cafe cafe = cafeRepository.findById(reviewDTO.getCafeId()).orElseThrow(EntityNotFoundException::new);
+        Users users = usersRepository.findById(reviewDTO.getUserId()).orElseThrow(EntityNotFoundException::new);
 
         Review review = Review.builder()
                 .consentScore(reviewDTO.getConsentScore())

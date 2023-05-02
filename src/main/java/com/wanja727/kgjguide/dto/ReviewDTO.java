@@ -4,13 +4,13 @@ import com.wanja727.kgjguide.constant.Floor;
 import com.wanja727.kgjguide.constant.StoreSize;
 import com.wanja727.kgjguide.entity.Cafe;
 import com.wanja727.kgjguide.entity.Users;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Getter @Setter
 @ToString
+@Builder
 public class ReviewDTO {
 
     private Long reviewId;
@@ -31,4 +31,9 @@ public class ReviewDTO {
 
     private String content;
 
+    private String regTime;
+
+    private String updateTime;
+
+    private String userEmailId;
 }

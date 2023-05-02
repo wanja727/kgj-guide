@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,8 +60,26 @@ public class CafeService {
         // 리뷰 목록
         List<Review> reviewList = reviewRepository.findByCafeCafeId(cafeId);
         // Entity -> DTO변환
+//        List<ReviewDTO> reviewDTOList = reviewList.stream()
+//                .map(review -> modelMapper.map(review, ReviewDTO.class)).collect(Collectors.toList());
+
         List<ReviewDTO> reviewDTOList = reviewList.stream()
-                .map(review -> modelMapper.map(review, ReviewDTO.class)).collect(Collectors.toList());
+                .map(review -> ReviewDTO.builder()
+                        .reviewId(review.getReviewId())
+                        .userId(review.getUser().getUserId())
+                        .cafeId(review.getCafe().getCafeId())
+                        .storeSize(review.getStoreSize())
+                        .floor(review.getFloor())
+                        .consentScore(review.getConsentScore())
+                        .wifiScore(review.getWifiScore())
+                        .comfortScore(review.getComfortScore())
+                        .content(review.getContent())
+                        .regTime(review.getRegDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")))
+                        .updateTime(review.getModDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")))
+                        .userEmailId(review.getUser().getEmail().split("@")[0])
+                        .build()
+                ).collect(Collectors.toList());
+
         // 결과 DTO에 리뷰 목록 세팅
         cafeDetailDTO.setReviewDTOList(reviewDTOList);
 

@@ -1,5 +1,6 @@
 package com.wanja727.kgjguide.controller;
 
+import com.wanja727.kgjguide.config.auth.LoginUser;
 import com.wanja727.kgjguide.config.auth.dto.SessionUser;
 import com.wanja727.kgjguide.dto.CafeDto;
 import com.wanja727.kgjguide.service.CafeService;
@@ -18,21 +19,33 @@ import java.util.Map;
 @RequestMapping
 @RequiredArgsConstructor
 public class MainController {
-
     private final CafeService cafeService;
     private final HttpSession httpSession;
 
     @GetMapping(value = "/")
-    public String main(Model model) {
+    public String main(Model model, @LoginUser SessionUser user) {
 
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
         System.out.println("user = " + user);
         if (user != null) {
             model.addAttribute("userName", user.getName());
             model.addAttribute("userEmail", user.getEmail());
+            model.addAttribute("userId",user.getUserId());
         }
 
         return "main";
+    }
+
+    @GetMapping(value = "/Guideline")
+    public String guideline(Model model, @LoginUser SessionUser user) {
+
+        System.out.println("user = " + user);
+        if (user != null) {
+            model.addAttribute("userName", user.getName());
+            model.addAttribute("userEmail", user.getEmail());
+            model.addAttribute("userId",user.getUserId());
+        }
+
+        return "guideline/guideline";
     }
 
     @PostMapping(value = "/")
