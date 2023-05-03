@@ -6,10 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,8 +28,8 @@ public class ReviewController {
         return new ResponseEntity<Long>(reviewId, HttpStatus.OK);
     }
 
-    @PostMapping("/review/remove")
-    public @ResponseBody ResponseEntity removeReview(@RequestParam Long reviewId){
+    @PostMapping("/review/remove/{reviewId}")
+    public @ResponseBody ResponseEntity removeReview(@PathVariable("reviewId") Long reviewId){
         System.out.println("reviewId = " + reviewId);
         reviewService.remove(reviewId);
         return new ResponseEntity<Long>(reviewId, HttpStatus.OK);

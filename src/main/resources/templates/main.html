@@ -66,8 +66,6 @@
     <div class="overflow-auto" id="overlay3"
          style="position: fixed;display: none;width: 325px;height: calc(100vh - 56px);top: 56px;left: 315px;right: 0;bottom: 0;background-color: rgba(255,255,255,1);z-index: 2;">
 
-        <!--        <button type="button" class="btn btn-outline-secondary">< 카페정보</button>-->
-
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb mt-3 mx-3">
                 <li class="breadcrumb-item"><a class="text-decoration-none fw-bold" href="javascript:closeReview()">카페 정보☕️</a></li>
@@ -196,9 +194,6 @@
         }
 
         // NAVER Maps
-        var MARKER_ICON_URL = 'https://ssl.pstatic.net/static/maps/img/icons/sp_pins_spot_v3.png';
-        var MARKER_HIGHLIGHT_ICON_URL = 'https://ssl.pstatic.net/static/maps/img/icons/sp_pins_spot_v3_over.png';
-
         var map = new naver.maps.Map('map');
         var markers = [], infoWindows = [];
         var circle;
@@ -212,28 +207,26 @@
 
         // 마커 마우스오버시에 모양 변경 (현재 미사용)
         function highlightMarker(marker) {
-            console.log(marker);
-
             var icon = marker.getIcon();
 
-            if (icon.url !== MARKER_HIGHLIGHT_ICON_URL) {
-                icon.url = MARKER_HIGHLIGHT_ICON_URL;
+            if(!icon.highlight){
+                let replaced_content = icon.content.replace('class="pins_s_tooltip"','class="pins_s_tooltip bg-success"');
+                icon.content = replaced_content;
+                icon.highlight = true;
                 marker.setIcon(icon);
             }
-
             marker.setZIndex(1000);
         }
 
         function unhighlightMarker(marker) {
-            console.log(marker);
-
             var icon = marker.getIcon();
 
-            if (icon.url === MARKER_HIGHLIGHT_ICON_URL) {
-                icon.url = MARKER_ICON_URL;
+            if(icon.highlight){
+                let replaced_content = icon.content.replace('class="pins_s_tooltip bg-success"','class="pins_s_tooltip"');
+                icon.content = replaced_content;
+                icon.highlight = false;
                 marker.setIcon(icon);
             }
-
             marker.setZIndex(100);
         }
 
@@ -259,10 +252,6 @@
                     circle.setMap(null);
                 }
 
-                // 리스트 삭제
-                // let cafeList = document.getElementById("cafeList");
-                // cafeList.replaceChildren();
-
                 // 마커 삭제
                 for (var i = 0; i < markers.length; i++) {
                     if (markers[i].setMap()) {
@@ -270,13 +259,7 @@
                     }
                     recognizer.remove(markers[i]);
                 }
-
-                // 설명창 삭제
-                // for (var j = 0; j < infoWindows.length; j++) {
-                //     if (infoWindows[j].getMap()) {
-                //         infoWindows[j].close();
-                //     }
-                // }
+                naver.maps.Event.clearInstanceListeners(recognizer); // recognizer에 등록된 이벤트 모두 삭제
 
                 // 신규 검색정보 추가
                 // 반경 추가
@@ -323,7 +306,7 @@
                             '<div class="pin_s" style="cursor: pointer; width: 22px; height: 30px;">',
                             // '<img src="https://ssl.pstatic.net/static/maps/img/icons/pin_s_3.png" alt="" style="margin: 0px; padding: 0px; border: 0px solid transparent; display: block; max-width: none; max-height: none; -webkit-user-select: none; position: absolute; width: 22px; height: 30px; left: 0px; top: 0px;">',
                             // '<div class="pins_s_tooltip" style="display:none;width:150px;height:20px;position:absolute;top:5px;left:25px;font-size: 12px;">' + data[key].cafeNm + '</div>',
-                            '<div class="pins_s_tooltip" style="border-radius: 25px;width:max-content;height:max-content;position:absolute;margin: 0px; padding: 0px 7px;border: 1px solid;font-size: 12px;font-weight: bold;background-color: white;">' +
+                            '<div class="pins_s_tooltip text-success" style="border-radius: 25px;width:max-content;height:max-content;position:absolute;margin: 0px; padding: 0px 7px;border: 1px solid green;font-size: 12px;font-weight: bold;background-color: white;">' +
                             data[key].cafeNm + '<br>' +
                             '대형 콘센트:많음 wifi:원활 좌석:편안' +
                             '</div>',
@@ -352,7 +335,7 @@
                     //     $(elHtmlMarker).find('.pins_s_tooltip').hide();
                     // });
 
-                    recognizer.add(htmlMarker);
+
 
 
                     // var infoWindow = new naver.maps.InfoWindow({
@@ -369,7 +352,17 @@
                     //     content: contentString
                     // });
 
-                    naver.maps.Event.addListener(htmlMarker, "click", getClickHandler(data[key].cafeId, data[key].lat, data[key].lng));
+
+                    htmlMarker.addListener('mouseover', function(e) {
+                        highlightMarker(e.overlay);
+                    });
+                    htmlMarker.addListener('mouseout', function(e) {
+                        unhighlightMarker(e.overlay);
+                    });
+
+                    htmlMarker.addListener('click', getClickHandler(data[key].cafeId, data[key].lat, data[key].lng));
+
+                    // naver.maps.Event.addListener(htmlMarker, "click", getClickHandler(data[key].cafeId, data[key].lat, data[key].lng));
 
                     // infowindow.open(map, marker);
 
@@ -390,14 +383,15 @@
 
                     markers.push(htmlMarker);
                     // infoWindows.push(infowindow);
+                    recognizer.add(htmlMarker);
                 }
 
                 cafeList.innerHTML = listHtml;
 
-                /*
                 var overlapCoverMarker = null;
-
                 naver.maps.Event.addListener(recognizer, 'overlap', function(list) {
+                    console.log('overlap');
+
                     if (overlapCoverMarker) {
                         unhighlightMarker(overlapCoverMarker);
                     }
@@ -405,11 +399,14 @@
                     overlapCoverMarker = list[0].marker;
 
                     naver.maps.Event.once(overlapCoverMarker, 'mouseout', function() {
+                        console.log('mouseout');
                         highlightMarker(overlapCoverMarker);
+                        // unhighlightMarker(overlapCoverMarker);
                     });
                 });
 
                 naver.maps.Event.addListener(recognizer, 'clickItem', function(e) {
+                    console.log('clickItem');
                     recognizer.hide();
 
                     if (overlapCoverMarker) {
@@ -418,7 +415,6 @@
                         overlapCoverMarker = null;
                     }
                 });
-                 */
 
 
             });
@@ -486,9 +482,16 @@
                 //data-bs-toggle="modal" data-bs-target="#exampleModal"
                 reviewHeader.innerHTML = html;
 
+
                 // 리뷰 정보 세팅
                 html = ``;
+                let modButtonHTML = ``;
                 for (var i = 0; i < data.reviewDTOList.length; i++) {
+                    //console.log([[${userId}]]+' '+data.reviewDTOList[i].userId);
+                    if([[${userId}]] == data.reviewDTOList[i].userId){
+                        modButtonHTML = `<button type="button" class="btn btn-outline-success mt-2 mx-1 float-end" onclick="remove(${data.reviewDTOList[i].reviewId}, ${data.cafeDto.cafeId})">삭제</button>`;
+                                         //<button type="button" class="btn btn-outline-success mt-2 mx-1 float-end" onclick="modify(${data.reviewDTOList[i].reviewId})">수정</button>`;
+                    }
 
                     buttonHtml =  buttonMaker(data.reviewDTOList[i].storeSize, data.reviewDTOList[i].floor, data.reviewDTOList[i].consentScore, data.reviewDTOList[i].wifiScore, data.reviewDTOList[i].comfortScore);
                     html += `<li class="list-group-item">
@@ -497,7 +500,7 @@
                                     <small>${data.reviewDTOList[i].regTime}</small>
                                 </div>
                                 <p class="mb-1">${data.reviewDTOList[i].content}</p>`
-                              + buttonHtml +
+                              + buttonHtml + modButtonHTML +
                              `</li>`;
                 }
                 reviewList.innerHTML = html;
@@ -702,6 +705,14 @@
             console.log(json);
 
             postData("http://localhost/review/register", json).then((data) => {
+                console.log(data); // JSON data parsed by `data.json()` call
+                cafeInfo(cafeId);  // 리뷰 등록후에 카페정보 reload
+            });
+        }
+
+        function remove(reviewId, cafeId){
+
+            postData("http://localhost/review/remove/"+reviewId, {}).then((data) => {
                 console.log(data); // JSON data parsed by `data.json()` call
                 cafeInfo(cafeId);  // 리뷰 등록후에 카페정보 reload
             });
