@@ -1,6 +1,7 @@
 package com.wanja727.kgjguide.repository;
 
 import com.wanja727.kgjguide.dto.CafeDto;
+import com.wanja727.kgjguide.dto.MostSeletedScoreDTO;
 import com.wanja727.kgjguide.entity.Review;
 import org.locationtech.jts.geom.Point;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,10 +16,11 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     List<Review> findByCafeCafeId(String cafeId);
 
-//    @Query("select new com.wanja727.kgjguide.dto.CafeDto() "+
-//            "from Review a "+
-//            "where a.cafe.cafeId = :cafeId "+
-//            "order by count(a.comfortScore)")
-//    List<CafeDto> getMostSelected(@Param("cafeId") Long cafeId);
+    @Query("select new com.wanja727.kgjguide.dto.MostSeletedScoreDTO(a.comfortScore) "+
+             "from Review a "+
+            "where a.cafe.cafeId = :cafeId "+
+            "group by a.comfortScore "+
+            "order by count(a.comfortScore) desc, a.comfortScore desc")
+    List<MostSeletedScoreDTO> getMostSelected(@Param("cafeId") String cafeId);
 
 }
