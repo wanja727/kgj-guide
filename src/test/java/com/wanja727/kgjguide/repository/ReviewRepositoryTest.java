@@ -4,7 +4,7 @@ import com.wanja727.kgjguide.constant.Authority;
 import com.wanja727.kgjguide.constant.Floor;
 import com.wanja727.kgjguide.constant.Role;
 import com.wanja727.kgjguide.constant.StoreSize;
-import com.wanja727.kgjguide.dto.MostSeletedScoreDTO;
+import com.wanja727.kgjguide.dto.MostSelectedDTO;
 import com.wanja727.kgjguide.entity.Cafe;
 import com.wanja727.kgjguide.entity.Review;
 import com.wanja727.kgjguide.entity.Users;
@@ -141,11 +141,24 @@ class ReviewRepositoryTest {
     @Test
     @DisplayName("가장 많이 선택한 점수조회 테스트")
     void getMostSelectedScore() {
-        List<MostSeletedScoreDTO> mostSelected = reviewRepository.getMostSelected("16654572");
-//        mostSelected.forEach(review -> System.out.println("review = " + review));
-        if (mostSelected.size()>0){
-            System.out.println("mostSelected.get(0).getScore() = " + mostSelected.get(0).getScore());
-        }
+        List<MostSelectedDTO> mostSelected;
+
+        mostSelected = reviewRepository.getMostSelected("16654572", "storeSize");
+        System.out.println("mostSelected.get(0).getScore() = " + mostSelected.get(0).getProperty().getClass().getName() + " " + mostSelected.get(0).getProperty());
+
+        mostSelected = reviewRepository.getMostSelected("16654572", "floor");
+        System.out.println("mostSelected.get(0).getScore() = " + mostSelected.get(0).getProperty().getClass().getName() + " " + mostSelected.get(0).getProperty());
+
+        mostSelected = reviewRepository.getMostSelected("16654572", "consentScore");
+        System.out.println("mostSelected.get(0).getScore() = " + mostSelected.get(0).getProperty().getClass().getName() + " " + mostSelected.get(0).getProperty());
+
+        mostSelected = reviewRepository.getMostSelected("16654572", "wifiScore");
+        System.out.println("mostSelected.get(0).getScore() = " + mostSelected.get(0).getProperty().getClass().getName() + " " + mostSelected.get(0).getProperty());
+
+        mostSelected = reviewRepository.getMostSelected("16654572", "comfortScore");
+        System.out.println("mostSelected.get(0).getScore() = " + mostSelected.get(0).getProperty().getClass().getName() + " " + mostSelected.get(0).getProperty());
+
+        //mostSelected.forEach(review -> System.out.println("review = " + review));
     }
 
 }

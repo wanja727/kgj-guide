@@ -87,7 +87,7 @@
             <input type="radio" class="btn-check" name="options-size" id="size4" autocomplete="off" value="LARGE">
             <label class="btn btn-outline-success mt-1" for="size4">대형🏰</label>
 
-            <div class="fw-bold mt-2">매장층수🏔</div>
+            <div class="fw-bold mt-2">매장층수(복층여부)🏔</div>
             <input type="radio" class="btn-check" name="options-floor" id="floor1" autocomplete="off" value="FIRST">
             <label class="btn btn-outline-success mt-1" for="floor1">1층🚶‍♂️</label>
 
@@ -207,26 +207,26 @@
 
         // 마커 마우스오버시에 모양 변경 (현재 미사용)
         function highlightMarker(marker) {
-            var icon = marker.getIcon();
-
-            if(!icon.highlight){
-                let replaced_content = icon.content.replace('class="pins_s_tooltip"','class="pins_s_tooltip bg-success"');
-                icon.content = replaced_content;
-                icon.highlight = true;
-                marker.setIcon(icon);
-            }
+            // var icon = marker.getIcon();
+            //
+            // if(!icon.highlight){
+            //     let replaced_content = icon.content.replace('class="pins_s_tooltip"','class="pins_s_tooltip bg-success"');
+            //     icon.content = replaced_content;
+            //     icon.highlight = true;
+            //     marker.setIcon(icon);
+            // }
             marker.setZIndex(1000);
         }
 
         function unhighlightMarker(marker) {
-            var icon = marker.getIcon();
-
-            if(icon.highlight){
-                let replaced_content = icon.content.replace('class="pins_s_tooltip bg-success"','class="pins_s_tooltip"');
-                icon.content = replaced_content;
-                icon.highlight = false;
-                marker.setIcon(icon);
-            }
+            // var icon = marker.getIcon();
+            //
+            // if(icon.highlight){
+            //     let replaced_content = icon.content.replace('class="pins_s_tooltip bg-success"','class="pins_s_tooltip"');
+            //     icon.content = replaced_content;
+            //     icon.highlight = false;
+            //     marker.setIcon(icon);
+            // }
             marker.setZIndex(100);
         }
 
@@ -293,6 +293,56 @@
                     //     marker.setMap(map);
                     // }
 
+                    let storeSize = ``;
+                    if(data[key].storeSize == 'TAKEOUT'){
+                        storeSize = `<span class="">포장</span>`; //text-danger
+                    }else if(data[key].storeSize == 'SMALL'){
+                        storeSize = `<span class="">소형</span>`; //text-warning
+                    }else if(data[key].storeSize == 'MEDIUM'){
+                        storeSize = `<span class="">중형</span>`; //text-primary
+                    }
+                    else if(data[key].storeSize == 'LARGE'){
+                        storeSize = `<span class="">대형</span>`; //text-success
+                    }
+
+                    let consentScoreRep = ``;
+                    if(data[key].consentScoreRep == '1'){
+                        consentScoreRep = ` 콘센트:<span class="">없음</span>`; //text-danger
+                    }else if(data[key].consentScoreRep == '2'){
+                        consentScoreRep = ` 콘센트:<span class="">적음</span>`; //text-warning
+                    }else if(data[key].consentScoreRep == '3'){
+                        consentScoreRep = ` 콘센트:<span class="">충분</span>`; //text-primary
+                    }
+                    else if(data[key].consentScoreRep == '4'){
+                        consentScoreRep = ` 콘센트:<span class="">많음</span>`; //text-success
+                    }
+
+                    let wifiScoreRep = ``;
+                    if(data[key].wifiScoreRep == '1'){
+                        wifiScoreRep = ` wifi:<span class="">없음</span>`; //text-danger
+                    }else if(data[key].wifiScoreRep == '2'){
+                        wifiScoreRep = ` wifi:<span class="">느림</span>`; //text-warning
+                    }else if(data[key].wifiScoreRep == '3'){
+                        wifiScoreRep = ` wifi:<span class="">원활</span>`; //text-primary
+                    }
+                    else if(data[key].wifiScoreRep == '4'){
+                        wifiScoreRep = ` wifi:<span class="">쾌적</span>`; //text-success
+                    }
+
+                    let comfortScoreRep = ``;
+                    if(data[key].comfortScoreRep == '1'){
+                        comfortScoreRep = ` 좌석:<span class="">아픔</span>`; //text-danger
+                    }else if(data[key].comfortScoreRep == '2'){
+                        comfortScoreRep = ` 좌석:<span class="">불편</span>`; //text-warning
+                    }else if(data[key].comfortScoreRep == '3'){
+                        comfortScoreRep = ` 좌석:<span class="">편안</span>`; //text-primary
+                    }
+                    else if(data[key].comfortScoreRep == '4'){
+                        comfortScoreRep = ` 좌석:<span class="">안락</span>`; //text-success
+                    }
+
+                    let summaryHTML = storeSize+consentScoreRep+wifiScoreRep+comfortScoreRep;
+
 
 
                     var markerContent = [
@@ -306,9 +356,9 @@
                             '<div class="pin_s" style="cursor: pointer; width: 22px; height: 30px;">',
                             // '<img src="https://ssl.pstatic.net/static/maps/img/icons/pin_s_3.png" alt="" style="margin: 0px; padding: 0px; border: 0px solid transparent; display: block; max-width: none; max-height: none; -webkit-user-select: none; position: absolute; width: 22px; height: 30px; left: 0px; top: 0px;">',
                             // '<div class="pins_s_tooltip" style="display:none;width:150px;height:20px;position:absolute;top:5px;left:25px;font-size: 12px;">' + data[key].cafeNm + '</div>',
-                            '<div class="pins_s_tooltip text-success" style="border-radius: 25px;width:max-content;height:max-content;position:absolute;margin: 0px; padding: 0px 7px;border: 1px solid green;font-size: 12px;font-weight: bold;background-color: white;">' +
+                            '<div class="pins_s_tooltip text-success" style="border-radius: 25px;width:max-content;height:max-content;position:absolute;margin: 0px; padding: 0px 7px;border: 1px solid green;font-size: 12px;font-weight: bold;background-color: white;">' + //
                             data[key].cafeNm + '<br>' +
-                            '대형 콘센트:많음 wifi:원활 좌석:편안' +
+                            summaryHTML +
                             '</div>',
                             '</div>',
                             '</div>'
@@ -368,17 +418,17 @@
 
                     let reviewCntHtml = ``;
                     if(data[key].reviewCnt > 0){
-                        reviewCntHtml = `<span class="badge bg-secondary rounded-pill">${data[key].reviewCnt}</span>`; //
+                        reviewCntHtml = `<span class="badge bg-secondary rounded-pill" style="margin-block-end: auto;">${data[key].reviewCnt}</span>`; //
                     }else{
                         reviewCntHtml = `<small></small>`; //리뷰없음
                     }
 
-                    listHtml += `<a href="javascript:cafeInfo(${data[key].cafeId});" id=${data[key].cafeId} class="list-group-item list-group-item-action">
+                    listHtml += `<a href="javascript:cafeInfo(${data[key].cafeId});" id=${data[key].cafeId} class="list-group-item list-group-item-action" style="min-height: 70px;">
                                     <div class="d-flex w-100 justify-content-between">
                                         <h5 class="mb-1">${data[key].cafeNm}</h5>`
                                         + reviewCntHtml +
                                     `</div>
-                                    <p class="mb-1">대형 콘센트:많음 wifi:원활 좌석:편안</p>
+                                    <p class="mb-1">`+summaryHTML+`</p>
                                  </a>`;
 
                     markers.push(htmlMarker);
@@ -471,8 +521,8 @@
                                     주소: ${data.cafeDto.rdnmAdr}<br>
                                 </p>`
                                 + buttonHtml +
-                            `</div>
-                            <div class="card-footer bg-transparent border-success">정보 수정요청</div>`;
+                            `</div>`;
+                            //<div class="card-footer bg-transparent border-success">정보 수정요청</div>`;
                 cafeInfoDiv.innerHTML = html;
 
                 // 리뷰 건수 세팅
@@ -496,7 +546,7 @@
                     buttonHtml =  buttonMaker(data.reviewDTOList[i].storeSize, data.reviewDTOList[i].floor, data.reviewDTOList[i].consentScore, data.reviewDTOList[i].wifiScore, data.reviewDTOList[i].comfortScore);
                     html += `<li class="list-group-item">
                                 <div class="d-flex w-100 justify-content-between mb-1">
-                                    <h5 class="mb-1">${data.reviewDTOList[i].userEmailId}</h5>
+                                    <small class="mb-1">${data.reviewDTOList[i].userEmailId}</small>
                                     <small>${data.reviewDTOList[i].regTime}</small>
                                 </div>
                                 <p class="mb-1">${data.reviewDTOList[i].content}</p>`
@@ -519,13 +569,13 @@
             if(!!storeSize) {
                 buttonHtml += buttonTemplate;
                 if (storeSize == 'TAKEOUT') {
-                    buttonHtml += `테이크아웃 전용🏝`;
+                    buttonHtml += `포장 전용🏝`;
                 } else if (storeSize == 'SMALL') {
-                    buttonHtml += `소형(1~8)🏠`;
+                    buttonHtml += `소형 매장🏠`;
                 } else if (storeSize == 'MEDIUM') {
-                    buttonHtml += `중형(9~16)🏘`;
+                    buttonHtml += `중형 매장🏘`;
                 } else if (storeSize == 'LARGE') {
-                    buttonHtml += `대형🏰`;
+                    buttonHtml += `대형 매장🏰`;
                 }
                 buttonHtml += `</button>`;
             }
@@ -549,13 +599,13 @@
             if(!!consent) {
                 buttonHtml += buttonTemplate;
                 if (consent == '1') {
-                    buttonHtml += `콘센트가 없어요🚫`;
+                    buttonHtml += `콘센트 없음🚫`;
                 } else if (consent == '2') {
-                    buttonHtml += `콘센트가 적은 편이에요(1~5)☁`;
+                    buttonHtml += `콘센트 적음☁`;
                 } else if (consent == '3') {
-                    buttonHtml += `콘센트가 적당히 많아요(6~10)🌩`;
+                    buttonHtml += `콘센트 많음🌩`;
                 } else if (consent == '4') {
-                    buttonHtml += `콘센트가 아주 많아요!⚡`;
+                    buttonHtml += `콘센트 아주 많음!⚡`;
                 }
                 buttonHtml += `</button>`;
             }
@@ -564,13 +614,13 @@
             if(!!wifi) {
                 buttonHtml += buttonTemplate;
                 if (wifi == '1') {
-                    buttonHtml += `와이파이가 없어요🚫`;
+                    buttonHtml += `와이파이 없음🚫`;
                 } else if (wifi == '2') {
-                    buttonHtml += `와이파이가 끊기거나 느려요🛴`;
+                    buttonHtml += `와이파이 느림🛴`;
                 } else if (wifi == '3') {
-                    buttonHtml += `와이파이가 원활해요🚗`;
+                    buttonHtml += `와이파이 원활🚗`;
                 } else if (wifi == '4') {
-                    buttonHtml += `와이파이가 쾌적해요!🚀`;
+                    buttonHtml += `와이파이 쾌적!🚀`;
                 }
                 buttonHtml += `</button>`;
             }
@@ -579,13 +629,13 @@
             if(!!confort) {
                 buttonHtml += buttonTemplate;
                 if (confort == '1') {
-                    buttonHtml += `좌석이 불편해요🧗`;
+                    buttonHtml += `좌석이 불편🧗`;
                 } else if (confort == '2') {
-                    buttonHtml += `편하진 않은데 앉을만해요🤸`;
+                    buttonHtml += `편하진 않아요🤸`;
                 } else if (confort == '3') {
-                    buttonHtml += `좌석이 편안해요🧘`;
+                    buttonHtml += `좌석 편안🧘`;
                 } else if (confort == '4') {
-                    buttonHtml += `좌석이 안락해요!🛌`;
+                    buttonHtml += `좌석 안락!🛌`;
                 }
                 buttonHtml += `</button>`;
             }

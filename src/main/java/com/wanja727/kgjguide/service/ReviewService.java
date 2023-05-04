@@ -1,5 +1,8 @@
 package com.wanja727.kgjguide.service;
 
+import com.wanja727.kgjguide.constant.Floor;
+import com.wanja727.kgjguide.constant.StoreSize;
+import com.wanja727.kgjguide.dto.MostSelectedDTO;
 import com.wanja727.kgjguide.dto.ReviewDTO;
 import com.wanja727.kgjguide.entity.Cafe;
 import com.wanja727.kgjguide.entity.Review;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -49,7 +53,22 @@ public class ReviewService {
         System.out.println("review.getReviewId() = " + review.getReviewId());
 
         // TODO: 카페테이블에 크기,층수,점수3종 반영
-//        cafe.
+        List<MostSelectedDTO> mostSelected;
+
+        mostSelected = reviewRepository.getMostSelected(reviewDTO.getCafeId(), "storeSize");
+        cafe.setStoreSize((StoreSize) mostSelected.get(0).getProperty());
+
+        mostSelected = reviewRepository.getMostSelected(reviewDTO.getCafeId(), "floor");
+        cafe.setFloor((Floor) mostSelected.get(0).getProperty());
+
+        mostSelected = reviewRepository.getMostSelected(reviewDTO.getCafeId(), "consentScore");
+        cafe.setConsentScoreRep((Integer) mostSelected.get(0).getProperty());
+
+        mostSelected = reviewRepository.getMostSelected(reviewDTO.getCafeId(), "wifiScore");
+        cafe.setWifiScoreRep((Integer) mostSelected.get(0).getProperty());
+
+        mostSelected = reviewRepository.getMostSelected(reviewDTO.getCafeId(), "comfortScore");
+        cafe.setComfortScoreRep((Integer) mostSelected.get(0).getProperty());
 
         return review.getReviewId();
     }
