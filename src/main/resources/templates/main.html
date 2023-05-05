@@ -293,57 +293,67 @@
                     //     marker.setMap(map);
                     // }
 
-                    let storeSize = ``;
-                    if(data[key].storeSize == 'TAKEOUT'){
-                        storeSize = `<span class="">포장</span>`; //text-danger
-                    }else if(data[key].storeSize == 'SMALL'){
-                        storeSize = `<span class="">소형</span>`; //text-warning
-                    }else if(data[key].storeSize == 'MEDIUM'){
-                        storeSize = `<span class="">중형</span>`; //text-primary
-                    }
-                    else if(data[key].storeSize == 'LARGE'){
-                        storeSize = `<span class="">대형</span>`; //text-success
+                    let summaryHTML = ``;
+                    if(!!data[key].storeSize && !!data[key].consentScoreRep && !!data[key].wifiScoreRep && !!data[key].comfortScoreRep){
+                        let storeSize = ``;
+                        if(data[key].storeSize == 'TAKEOUT'){
+                            storeSize = `<span class="text-danger">포장</span>`; //
+                        }else if(data[key].storeSize == 'SMALL'){
+                            storeSize = `<span class="text-warning">소형</span>`; //
+                        }else if(data[key].storeSize == 'MEDIUM'){
+                            storeSize = `<span class="">중형</span>`; //text-primary
+                        }
+                        else if(data[key].storeSize == 'LARGE'){
+                            storeSize = `<span class="">대형</span>`; //text-success
+                        }
+
+                        let consentScoreRep = ``;
+                        if(data[key].consentScoreRep == '1'){
+                            consentScoreRep = `콘센트 <span class="text-danger">없음</span>`; //
+                        }else if(data[key].consentScoreRep == '2'){
+                            consentScoreRep = `콘센트 <span class="text-warning">적음</span>`; //
+                        }else if(data[key].consentScoreRep == '3'){
+                            consentScoreRep = `콘센트 <span class="">충분</span>`; //text-primary
+                        }
+                        else if(data[key].consentScoreRep == '4'){
+                            consentScoreRep = `콘센트 <span class="">많음</span>`; //text-success
+                        }
+
+                        let wifiScoreRep = ``;
+                        if(data[key].wifiScoreRep == '1'){
+                            wifiScoreRep = `wifi <span class="text-danger">없음</span>`; //
+                        }else if(data[key].wifiScoreRep == '2'){
+                            wifiScoreRep = `wifi <span class="text-warning">느림</span>`; //
+                        }else if(data[key].wifiScoreRep == '3'){
+                            wifiScoreRep = `wifi <span class="">원활</span>`; //text-primary
+                        }
+                        else if(data[key].wifiScoreRep == '4'){
+                            wifiScoreRep = `wifi <span class="">쾌적</span>`; //text-success
+                        }
+
+                        let comfortScoreRep = ``;
+                        if(data[key].comfortScoreRep == '1'){
+                            comfortScoreRep = `좌석 <span class="text-danger">아픔</span>`; //
+                        }else if(data[key].comfortScoreRep == '2'){
+                            comfortScoreRep = `좌석 <span class="text-warning">불편</span>`; //
+                        }else if(data[key].comfortScoreRep == '3'){
+                            comfortScoreRep = `좌석 <span class="">편안</span>`; //text-primary
+                        }
+                        else if(data[key].comfortScoreRep == '4'){
+                            comfortScoreRep = `좌석 <span class="">안락</span>`; //text-success
+                        }
+
+                        summaryHTML = storeSize+'/'+consentScoreRep+'/'+wifiScoreRep+'/'+comfortScoreRep;
                     }
 
-                    let consentScoreRep = ``;
-                    if(data[key].consentScoreRep == '1'){
-                        consentScoreRep = ` 콘센트:<span class="">없음</span>`; //text-danger
-                    }else if(data[key].consentScoreRep == '2'){
-                        consentScoreRep = ` 콘센트:<span class="">적음</span>`; //text-warning
-                    }else if(data[key].consentScoreRep == '3'){
-                        consentScoreRep = ` 콘센트:<span class="">충분</span>`; //text-primary
-                    }
-                    else if(data[key].consentScoreRep == '4'){
-                        consentScoreRep = ` 콘센트:<span class="">많음</span>`; //text-success
-                    }
-
-                    let wifiScoreRep = ``;
-                    if(data[key].wifiScoreRep == '1'){
-                        wifiScoreRep = ` wifi:<span class="">없음</span>`; //text-danger
-                    }else if(data[key].wifiScoreRep == '2'){
-                        wifiScoreRep = ` wifi:<span class="">느림</span>`; //text-warning
-                    }else if(data[key].wifiScoreRep == '3'){
-                        wifiScoreRep = ` wifi:<span class="">원활</span>`; //text-primary
-                    }
-                    else if(data[key].wifiScoreRep == '4'){
-                        wifiScoreRep = ` wifi:<span class="">쾌적</span>`; //text-success
-                    }
-
-                    let comfortScoreRep = ``;
-                    if(data[key].comfortScoreRep == '1'){
-                        comfortScoreRep = ` 좌석:<span class="">아픔</span>`; //text-danger
-                    }else if(data[key].comfortScoreRep == '2'){
-                        comfortScoreRep = ` 좌석:<span class="">불편</span>`; //text-warning
-                    }else if(data[key].comfortScoreRep == '3'){
-                        comfortScoreRep = ` 좌석:<span class="">편안</span>`; //text-primary
-                    }
-                    else if(data[key].comfortScoreRep == '4'){
-                        comfortScoreRep = ` 좌석:<span class="">안락</span>`; //text-success
-                    }
-
-                    let summaryHTML = storeSize+consentScoreRep+wifiScoreRep+comfortScoreRep;
 
 
+                    let reviewCntHtml = ``;
+                    if(data[key].reviewCnt > 0){
+                        reviewCntHtml = ` <span class="badge bg-success rounded-pill" style="margin-block-end: auto;vertical-align: text-bottom;">${data[key].reviewCnt}</span>`; //
+                    }else{
+                        reviewCntHtml = `<small></small>`; //리뷰없음
+                    }
 
                     var markerContent = [
                             '<div style="position:absolute;">',
@@ -356,9 +366,9 @@
                             '<div class="pin_s" style="cursor: pointer; width: 22px; height: 30px;">',
                             // '<img src="https://ssl.pstatic.net/static/maps/img/icons/pin_s_3.png" alt="" style="margin: 0px; padding: 0px; border: 0px solid transparent; display: block; max-width: none; max-height: none; -webkit-user-select: none; position: absolute; width: 22px; height: 30px; left: 0px; top: 0px;">',
                             // '<div class="pins_s_tooltip" style="display:none;width:150px;height:20px;position:absolute;top:5px;left:25px;font-size: 12px;">' + data[key].cafeNm + '</div>',
-                            '<div class="pins_s_tooltip text-success" style="border-radius: 25px;width:max-content;height:max-content;position:absolute;margin: 0px; padding: 0px 7px;border: 1px solid green;font-size: 12px;font-weight: bold;background-color: white;">' + //
-                            data[key].cafeNm + '<br>' +
-                            summaryHTML +
+                            '<div class="pins_s_tooltip text-success" style="border-radius: 25px;width:max-content;height:max-content;position:absolute;margin: 0px; padding: 0px 7px;border: 1px solid green;font-size: 16px;font-weight: bold;background-color: white;">' + //
+                            data[key].cafeNm + reviewCntHtml +
+                            // summaryHTML +
                             '</div>',
                             '</div>',
                             '</div>'
@@ -416,19 +426,14 @@
 
                     // infowindow.open(map, marker);
 
-                    let reviewCntHtml = ``;
-                    if(data[key].reviewCnt > 0){
-                        reviewCntHtml = `<span class="badge bg-secondary rounded-pill" style="margin-block-end: auto;">${data[key].reviewCnt}</span>`; //
-                    }else{
-                        reviewCntHtml = `<small></small>`; //리뷰없음
-                    }
+
 
                     listHtml += `<a href="javascript:cafeInfo(${data[key].cafeId});" id=${data[key].cafeId} class="list-group-item list-group-item-action" style="min-height: 70px;">
                                     <div class="d-flex w-100 justify-content-between">
-                                        <h5 class="mb-1">${data[key].cafeNm}</h5>`
+                                        <h5 class="mb-1 fw-bold">${data[key].cafeNm}</h5>`
                                         + reviewCntHtml +
                                     `</div>
-                                    <p class="mb-1">`+summaryHTML+`</p>
+                                    <p class="mb-1 fw-bold" style="font-size: 15px">`+summaryHTML+`</p>
                                  </a>`;
 
                     markers.push(htmlMarker);
