@@ -21,10 +21,14 @@
         ::-webkit-scrollbar-track {
             background: transparent;
         }
-
         .list-group-item.active{
-            background-color: #198754;
-            border-color: #198754;
+            color: #212529;
+            background-color: #e9ecef;
+            border-color: #e9ecef;
+        }
+        label.btn.btn-outline-success{
+            display: flex;
+            width: 250px;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
@@ -46,7 +50,7 @@
 
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb mt-3 mx-3">
-                <li class="breadcrumb-item active fw-bold" aria-current="page">카페 정보☕️</li>
+                <li class="breadcrumb-item active fw-bold" aria-current="page">☕️카페 정보</li>
             </ol>
         </nav>
 
@@ -68,76 +72,77 @@
 
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb mt-3 mx-3">
-                <li class="breadcrumb-item"><a class="text-decoration-none fw-bold" href="javascript:closeReview()">카페 정보☕️</a></li>
-                <li class="breadcrumb-item active fw-bold" aria-current="page">리뷰 쓰기✏️</li>
+                <li class="breadcrumb-item"><a class="text-decoration-none fw-bold" href="javascript:closeReview()">☕️카페 정보</a></li>
+                <li class="breadcrumb-item active fw-bold" aria-current="page">✏️리뷰 쓰기</li>
             </ol>
         </nav>
 
         <div class="p-2 pb-5 mb-5">
-            <div class="fw-bold">매장크기(테이블)🏢</div>
+            <div class="fw-bold">🏢매장크기(테이블 개수)</div>
+
             <input type="radio" class="btn-check" name="options-size" id="size1" autocomplete="off" value="TAKEOUT">
-            <label class="btn btn-outline-success mt-1" for="size1">테이크아웃 전용🏝</label>
+            <label class="btn btn-outline-success mt-1" for="size1">🏝테이크아웃 전용</label>
 
             <input type="radio" class="btn-check" name="options-size" id="size2" autocomplete="off" value="SMALL">
-            <label class="btn btn-outline-success mt-1" for="size2">소형(1~8)🏠</label>
+            <label class="btn btn-outline-success mt-1" for="size2">🏠소형(1~8)</label>
 
             <input type="radio" class="btn-check" name="options-size" id="size3" autocomplete="off" value="MEDIUM">
-            <label class="btn btn-outline-success mt-1" for="size3">중형(9~16)🏘</label>
+            <label class="btn btn-outline-success mt-1" for="size3">🏘중형(9~16)</label>
 
             <input type="radio" class="btn-check" name="options-size" id="size4" autocomplete="off" value="LARGE">
-            <label class="btn btn-outline-success mt-1" for="size4">대형🏰</label>
+            <label class="btn btn-outline-success mt-1" for="size4">🏰대형</label>
 
-            <div class="fw-bold mt-2">매장층수(복층여부)🏔</div>
+            <div class="fw-bold mt-2">🏔매장층수(복층여부)</div>
             <input type="radio" class="btn-check" name="options-floor" id="floor1" autocomplete="off" value="FIRST">
-            <label class="btn btn-outline-success mt-1" for="floor1">1층🚶‍♂️</label>
+            <label class="btn btn-outline-success mt-1" for="floor1">🚶‍1층️</label>
 
             <input type="radio" class="btn-check" name="options-floor" id="floor2" autocomplete="off" value="SECOND">
-            <label class="btn btn-outline-success mt-1" for="floor2">2층🪂</label>
+            <label class="btn btn-outline-success mt-1" for="floor2">🪂2층</label>
 
             <input type="radio" class="btn-check" name="options-floor" id="floor3" autocomplete="off" value="THIRD">
-            <label class="btn btn-outline-success mt-1" for="floor3">3층✈</label>
+            <label class="btn btn-outline-success mt-1" for="floor3">✈3층</label>
 
             <input type="radio" class="btn-check" name="options-floor" id="floor4" autocomplete="off" value="MORE">
-            <label class="btn btn-outline-success mt-1" for="floor4">그 이상🛰</label>
+            <label class="btn btn-outline-success mt-1" for="floor4">🛰그 이상</label>
 
-            <div class="fw-bold mt-2">콘센트(개수)🔌</div>
+            <div class="fw-bold mt-2">🔌콘센트(개수)</div>
             <input type="radio" class="btn-check" name="options-consent" id="consent1" autocomplete="off" value="1">
-            <label class="btn btn-outline-success mt-1" for="consent1">콘센트가 없어요🚫</label><!--🌫-->
+            <label class="btn btn-outline-success mt-1" for="consent1">🚫콘센트가 없어요</label><!--🌫-->
 
             <input type="radio" class="btn-check" name="options-consent" id="consent2" autocomplete="off" value="2">
-            <label class="btn btn-outline-success mt-1" for="consent2">적은 편이에요(1~5)☁</label>
+            <label class="btn btn-outline-success mt-1" for="consent2">☁적은 편이에요(1~5)</label>
 
             <input type="radio" class="btn-check" name="options-consent" id="consent3" autocomplete="off" value="3">
-            <label class="btn btn-outline-success mt-1" for="consent3">적당히 많아요(6~10)🌩</label>
+            <label class="btn btn-outline-success mt-1" for="consent3">🌩적당히 많아요(6~10)</label>
 
             <input type="radio" class="btn-check" name="options-consent" id="consent4" autocomplete="off" value="4">
-            <label class="btn btn-outline-success mt-1" for="consent4">아주 많아요!⚡</label>
+            <label class="btn btn-outline-success mt-1" for="consent4">⚡아주 많아요!</label>
 
-            <div class="fw-bold mt-2">와이파이📡</div>
+            <div class="fw-bold mt-2">📡와이파이</div>
             <input type="radio" class="btn-check" name="options-wifi" id="wifi1" autocomplete="off" value="1">
-            <label class="btn btn-outline-success mt-1" for="wifi1">와이파이가 없어요🚫</label>
+            <label class="btn btn-outline-success mt-1" for="wifi1">🚫와이파이가 없어요</label>
 
             <input type="radio" class="btn-check" name="options-wifi" id="wifi2" autocomplete="off" value="2">
-            <label class="btn btn-outline-success mt-1" for="wifi2">끊기거나 느려요🛴</label><!--🛵-->
+            <label class="btn btn-outline-success mt-1" for="wifi2">🛴끊기거나 느려요</label><!--🛵-->
 
             <input type="radio" class="btn-check" name="options-wifi" id="wifi3" autocomplete="off" value="3">
-            <label class="btn btn-outline-success mt-1" for="wifi3">원활해요🚗</label>
+            <label class="btn btn-outline-success mt-1" for="wifi3">🚗원활해요</label>
 
             <input type="radio" class="btn-check" name="options-wifi" id="wifi4" autocomplete="off" value="4">
-            <label class="btn btn-outline-success mt-1" for="wifi4">쾌적해요!🚀</label>
+            <label class="btn btn-outline-success mt-1" for="wifi4">🚀쾌적해요!</label>
 
-            <div class="fw-bold mt-2">좌석과 테이블의 편안함🪑</div>
+            <div class="fw-bold mt-2">🪑좌석과 테이블의 편안함</div>
             <input type="radio" class="btn-check" name="options-comfort" id="comfort1" autocomplete="off" value="1">
-            <label class="btn btn-outline-success mt-1" for="comfort1">불편해요🧗</label>
+            <label class="btn btn-outline-success mt-1" for="comfort1">🧗불편해요</label>
 
             <input type="radio" class="btn-check" name="options-comfort" id="comfort2" autocomplete="off" value="2">
-            <label class="btn btn-outline-success mt-1" for="comfort2">편하진 않은데 앉을만해요🤸</label>
+            <label class="btn btn-outline-success mt-1" for="comfort2">🤸편하진 않은데 앉을만해요</label>
 
             <input type="radio" class="btn-check" name="options-comfort" id="comfort3" autocomplete="off" value="3">
-            <label class="btn btn-outline-success mt-1" for="comfort3">편안해요🧘</label>
+            <label class="btn btn-outline-success mt-1" for="comfort3">🧘편안해요</label>
 
             <input type="radio" class="btn-check" name="options-comfort" id="comfort4" autocomplete="off" value="4">
-            <label class="btn btn-outline-success mt-1" for="comfort4">안락해요!🛌</label>
+            <label class="btn btn-outline-success mt-1" for="comfort4">🛌안락해요!</label>
 
             <div class="form-floating mt-2">
             <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
@@ -295,52 +300,52 @@
 
                     let summaryHTML = ``;
                     if(!!data[key].storeSize && !!data[key].consentScoreRep && !!data[key].wifiScoreRep && !!data[key].comfortScoreRep){
-                        let storeSize = ``;
+                        let storeSize = `매장 `;
                         if(data[key].storeSize == 'TAKEOUT'){
-                            storeSize = `<span class="text-danger">포장</span>`; //
+                            storeSize += `<span class="text-danger">포장</span>`; //
                         }else if(data[key].storeSize == 'SMALL'){
-                            storeSize = `<span class="text-warning">소형</span>`; //
+                            storeSize += `<span class="text-warning">소형</span>`; //
                         }else if(data[key].storeSize == 'MEDIUM'){
-                            storeSize = `<span class="">중형</span>`; //text-primary
+                            storeSize += `<span class="text-success">중형</span>`; //text-primary
                         }
                         else if(data[key].storeSize == 'LARGE'){
-                            storeSize = `<span class="">대형</span>`; //text-success
+                            storeSize += `<span class="text-primary">대형</span>`; //text-success
                         }
 
-                        let consentScoreRep = ``;
+                        let consentScoreRep = `콘센트 `;
                         if(data[key].consentScoreRep == '1'){
-                            consentScoreRep = `콘센트 <span class="text-danger">없음</span>`; //
+                            consentScoreRep += `<span class="text-danger">없음</span>`; //
                         }else if(data[key].consentScoreRep == '2'){
-                            consentScoreRep = `콘센트 <span class="text-warning">적음</span>`; //
+                            consentScoreRep += `<span class="text-warning">적음</span>`; //
                         }else if(data[key].consentScoreRep == '3'){
-                            consentScoreRep = `콘센트 <span class="">충분</span>`; //text-primary
+                            consentScoreRep += `<span class="text-success">충분</span>`; //text-primary
                         }
                         else if(data[key].consentScoreRep == '4'){
-                            consentScoreRep = `콘센트 <span class="">많음</span>`; //text-success
+                            consentScoreRep += `<span class="text-primary">많음</span>`; //text-success
                         }
 
-                        let wifiScoreRep = ``;
+                        let wifiScoreRep = `WiFi `;
                         if(data[key].wifiScoreRep == '1'){
-                            wifiScoreRep = `wifi <span class="text-danger">없음</span>`; //
+                            wifiScoreRep += `<span class="text-danger">없음</span>`; //
                         }else if(data[key].wifiScoreRep == '2'){
-                            wifiScoreRep = `wifi <span class="text-warning">느림</span>`; //
+                            wifiScoreRep += `<span class="text-warning">느림</span>`; //
                         }else if(data[key].wifiScoreRep == '3'){
-                            wifiScoreRep = `wifi <span class="">원활</span>`; //text-primary
+                            wifiScoreRep += `<span class="text-success">원활</span>`; //text-primary
                         }
                         else if(data[key].wifiScoreRep == '4'){
-                            wifiScoreRep = `wifi <span class="">쾌적</span>`; //text-success
+                            wifiScoreRep += `<span class="text-primary">쾌적</span>`; //text-success
                         }
 
-                        let comfortScoreRep = ``;
+                        let comfortScoreRep = `좌석 `;
                         if(data[key].comfortScoreRep == '1'){
-                            comfortScoreRep = `좌석 <span class="text-danger">아픔</span>`; //
+                            comfortScoreRep += `<span class="text-danger">아픔</span>`; //
                         }else if(data[key].comfortScoreRep == '2'){
-                            comfortScoreRep = `좌석 <span class="text-warning">불편</span>`; //
+                            comfortScoreRep += `<span class="text-warning">불편</span>`; //
                         }else if(data[key].comfortScoreRep == '3'){
-                            comfortScoreRep = `좌석 <span class="">편안</span>`; //text-primary
+                            comfortScoreRep += `<span class="text-success">편안</span>`; //
                         }
                         else if(data[key].comfortScoreRep == '4'){
-                            comfortScoreRep = `좌석 <span class="">안락</span>`; //text-success
+                            comfortScoreRep += `<span class="text-primary">안락</span>`; //
                         }
 
                         summaryHTML = storeSize+'/'+consentScoreRep+'/'+wifiScoreRep+'/'+comfortScoreRep;
@@ -433,7 +438,7 @@
                                         <h5 class="mb-1 fw-bold">${data[key].cafeNm}</h5>`
                                         + reviewCntHtml +
                                     `</div>
-                                    <p class="mb-1 fw-bold" style="font-size: 15px">`+summaryHTML+`</p>
+                                    <p class="mb-1 fw-bold" style="font-size: 13px">`+summaryHTML+`</p>
                                  </a>`;
 
                     markers.push(htmlMarker);
@@ -551,7 +556,7 @@
                     buttonHtml =  buttonMaker(data.reviewDTOList[i].storeSize, data.reviewDTOList[i].floor, data.reviewDTOList[i].consentScore, data.reviewDTOList[i].wifiScore, data.reviewDTOList[i].comfortScore);
                     html += `<li class="list-group-item">
                                 <div class="d-flex w-100 justify-content-between mb-1">
-                                    <small class="mb-1">${data.reviewDTOList[i].userEmailId}</small>
+                                    <small class="mb-1 fw-bold">${data.reviewDTOList[i].userEmailId}</small>
                                     <small>${data.reviewDTOList[i].regTime}</small>
                                 </div>
                                 <p class="mb-1">${data.reviewDTOList[i].content}</p>`
@@ -702,8 +707,8 @@
             console.log(`Longitude: ${crd.longitude}`);
             console.log(`More or less ${crd.accuracy} meters.`);
 
-            // map.setCenter(new naver.maps.LatLng(crd.latitude, crd.longitude)); // 중심 좌표 이동
-            map.setCenter(new naver.maps.LatLng(37.5594976, 127.1488309)); // 중심 좌표 이동 (고덕)
+            map.setCenter(new naver.maps.LatLng(crd.latitude, crd.longitude)); // 중심 좌표 이동
+            // map.setCenter(new naver.maps.LatLng(37.5594976, 127.1488309)); // 중심 좌표 이동 (고덕)
 
             // 현재 위치 지도에 표시 (초록색 점으로)
             // var marker = new naver.maps.Marker({
@@ -736,7 +741,7 @@
             var content = document.getElementById("floatingTextarea").value;
             var cafeId = document.getElementById("cafeInfoId").innerText;
 
-            // 선택항목 전부 체크했는데 확인 (텍스트는 필수 아님)
+            // 필수항목 전부 입력했는지 확인 (리뷰내용은 필수 아님)
             if(!storeSize ||
                 !floor ||
                 !consentScore ||
