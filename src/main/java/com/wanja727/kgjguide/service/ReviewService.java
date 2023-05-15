@@ -52,7 +52,7 @@ public class ReviewService {
         reviewRepository.save(review);
         System.out.println("review.getReviewId() = " + review.getReviewId());
 
-        // TODO: 카페테이블에 크기,층수,점수3종 반영
+        // 카페테이블에 크기,층수,점수 반영
         List<MostSelectedDTO> mostSelected;
 
         mostSelected = reviewRepository.getMostSelected(reviewDTO.getCafeId(), "storeSize");

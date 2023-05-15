@@ -31,22 +31,21 @@ public class CafeService {
     private final ReviewRepository reviewRepository;
     private final GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
 
-    // 주변 카페 목록 조회
+    // 현재위치 기준 주변 카페 목록 조회
     public List<CafeDto> getCafeList(double lng, double lat) {
 
         Point currPoint = geometryFactory.createPoint(new Coordinate(lng, lat));
         List<CafeDto> cafeList = cafeRepository.getCafeList(currPoint);
         log.info("cafeList.size() = " + cafeList.size());
 
-
-
-
         cafeList.forEach(cafeDto -> {
+            // 지도에 마커 찍기 위해서 위도,경도 세팅
             Geometry latlng = cafeDto.getGeometry();
             double x = latlng.getCoordinate().getX();
             double y = latlng.getCoordinate().getY();
             cafeDto.setLat(y);
             cafeDto.setLng(x);
+
             cafeDto.setReviewCnt(reviewRepository.findByCafeCafeId(cafeDto.getCafeId()).size()); // 리뷰 개수 세팅
         });
 
@@ -57,33 +56,7 @@ public class CafeService {
         // 결과 DTO 선언
         CafeDetailDTO cafeDetailDTO = new CafeDetailDTO();
 
-        // 리뷰 목록
-        List<Review> reviewList = reviewRepository.findByCafeCafeId(cafeId);
-        // Entity -> DTO변환
-//        List<ReviewDTO> reviewDTOList = reviewList.stream()
-//                .map(review -> modelMapper.map(review, ReviewDTO.class)).collect(Collectors.toList());
-
-        List<ReviewDTO> reviewDTOList = reviewList.stream()
-                .map(review -> ReviewDTO.builder()
-                        .reviewId(review.getReviewId())
-                        .userId(review.getUser().getUserId())
-                        .cafeId(review.getCafe().getCafeId())
-                        .storeSize(review.getStoreSize())
-                        .floor(review.getFloor())
-                        .consentScore(review.getConsentScore())
-                        .wifiScore(review.getWifiScore())
-                        .comfortScore(review.getComfortScore())
-                        .content(review.getContent())
-                        .regTime(review.getRegDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")))
-                        .updateTime(review.getModDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")))
-                        .userEmailId(review.getUser().getEmail().split("@")[0])
-                        .build()
-                ).collect(Collectors.toList());
-
-        // 결과 DTO에 리뷰 목록 세팅
-        cafeDetailDTO.setReviewDTOList(reviewDTOList);
-
-        // 카페 정보
+        // 카페 정보 조회
         Optional<Cafe> cafe = cafeRepository.findById(cafeId);
         // 카페 없으면 에러
         if(!cafe.isPresent()){
@@ -107,6 +80,35 @@ public class CafeService {
                 .build();
         // 결과 DTO에 카페 정보 세팅
         cafeDetailDTO.setCafeDto(cafeDto);
+
+        // 리뷰 목록 조회
+        List<Review> reviewList = reviewRepository.findByCafeCafeId(cafeId);
+
+        // Entity -> DTO변환
+//        List<ReviewDTO> reviewDTOList = reviewList.stream()
+//                .map(review -> modelMapper.map(review, ReviewDTO.class)).collect(Collectors.toList());
+
+        List<ReviewDTO> reviewDTOList = reviewList.stream()
+                .map(review -> ReviewDTO.builder()
+                        .reviewId(review.getReviewId())
+                        .userId(review.getUser().getUserId())
+                        .cafeId(review.getCafe().getCafeId())
+                        .storeSize(review.getStoreSize())
+                        .floor(review.getFloor())
+                        .consentScore(review.getConsentScore())
+                        .wifiScore(review.getWifiScore())
+                        .comfortScore(review.getComfortScore())
+                        .content(review.getContent())
+                        // 작성일시 Format
+                        .regTime(review.getRegDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")))
+                        .updateTime(review.getModDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")))
+                        // Gmail 주소에서 id부분만 추출하여 작성자명으로 표기 wanja727@gmail.com -> wanja727
+                        .userEmailId(review.getUser().getEmail().split("@")[0])
+                        .build()
+                ).collect(Collectors.toList());
+
+        // 결과 DTO에 리뷰 목록 세팅
+        cafeDetailDTO.setReviewDTOList(reviewDTOList);
 
         return cafeDetailDTO;
     }
