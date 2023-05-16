@@ -1,14 +1,15 @@
 package com.wanja727.kgjguide.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter @Setter
 @ToString(exclude = {"user","cafe"})
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Bookmark extends BaseEntity {
 
     @Id

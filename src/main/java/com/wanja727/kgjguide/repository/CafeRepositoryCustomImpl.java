@@ -9,11 +9,11 @@ import java.util.List;
 
 import static com.wanja727.kgjguide.entity.QCafe.cafe;
 
-public class CafeRepositoryImpl {
+public class CafeRepositoryCustomImpl {
 
     private JPAQueryFactory queryFactory;
 
-    public CafeRepositoryImpl(EntityManager em) {
+    public CafeRepositoryCustomImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 

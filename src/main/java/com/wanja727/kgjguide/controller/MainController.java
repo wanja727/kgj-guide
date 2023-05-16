@@ -48,6 +48,19 @@ public class MainController {
         return "guideline/guideline";
     }
 
+    @GetMapping(value = "/mypage")
+    public String mypage(Model model, @LoginUser SessionUser user) {
+
+        System.out.println("user = " + user);
+        if (user != null) {
+            model.addAttribute("userName", user.getName());
+            model.addAttribute("userEmail", user.getEmail());
+            model.addAttribute("userId",user.getUserId());
+        }
+
+        return "mypage/mypage";
+    }
+
     @PostMapping(value = "/")
     public @ResponseBody ResponseEntity getCafeList(@RequestBody Map<String, Double> map) {
         System.out.println("map.toString() = " + map.toString());

@@ -40,6 +40,7 @@
 <div layout:fragment="content">
 
     <div class="float-start overflow-auto" style="width: 315px;height: calc(100vh - 56px)">
+        <div>북마크</div>
         <ul class="list-group" id="cafeList">
         </ul>
     </div>
@@ -54,7 +55,7 @@
             </ol>
         </nav>
 
-        <div id="cafeInfo" class="card border-success m-1" style="width:auto;">
+        <div id="cafeInfo" class="card border-secondary m-1" style="width:auto;">
         </div>
 
         <div id="reviewHeader" class="d-flex justify-content-between m-1" style="align-items: center"></div>
@@ -355,7 +356,7 @@
 
                     let reviewCntHtml = ``;
                     if(data[key].reviewCnt > 0){
-                        reviewCntHtml = ` <span class="badge bg-success rounded-pill" style="margin-block-end: auto;vertical-align: text-bottom;">${data[key].reviewCnt}</span>`; //
+                        reviewCntHtml = ` <span class="badge bg-secondary rounded-pill" style="margin-block-end: auto;vertical-align: text-bottom;">${data[key].reviewCnt}</span>`; //
                     }else{
                         reviewCntHtml = `<small></small>`; //리뷰없음
                     }
@@ -371,7 +372,7 @@
                             '<div class="pin_s" style="cursor: pointer; width: 22px; height: 30px;">',
                             // '<img src="https://ssl.pstatic.net/static/maps/img/icons/pin_s_3.png" alt="" style="margin: 0px; padding: 0px; border: 0px solid transparent; display: block; max-width: none; max-height: none; -webkit-user-select: none; position: absolute; width: 22px; height: 30px; left: 0px; top: 0px;">',
                             // '<div class="pins_s_tooltip" style="display:none;width:150px;height:20px;position:absolute;top:5px;left:25px;font-size: 12px;">' + data[key].cafeNm + '</div>',
-                            '<div class="pins_s_tooltip text-success" style="border-radius: 25px;width:max-content;height:max-content;position:absolute;margin: 0px; padding: 0px 7px;border: 1px solid green;font-size: 16px;font-weight: bold;background-color: white;">' + //
+                            '<div class="pins_s_tooltip text-secondary" style="border-radius: 25px;width:max-content;height:max-content;position:absolute;margin: 0px; padding: 0px 7px;border: 1px solid gray;font-size: 16px;font-weight: bold;background-color: white;">' + //
                             data[key].cafeNm + reviewCntHtml +
                             // summaryHTML +
                             '</div>',
@@ -521,22 +522,27 @@
                 let buttonHtml =  buttonMaker(data.cafeDto.storeSize, data.cafeDto.floor, data.cafeDto.consentScoreRep, data.cafeDto.wifiScoreRep, data.cafeDto.comfortScoreRep);
 
                 // 카페 정보 세팅
-                let html = `<div class="card-body text-success">
+                let html = `<div class="card-body">
                                 <p hidden="hidden" id="cafeInfoId">${data.cafeDto.cafeId}</p>
-                                <h5 class="card-title">${data.cafeDto.cafeNm}</h5>
+                                <div class="d-flex w-100 justify-content-between mb-1">
+                                    <h5 class="card-title fw-bold">${data.cafeDto.cafeNm}</h5>
+                                    <input type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off">
+                                    <label class="btn btn-outline-warning" for="btn-check-outlined">⭐</label>
+                                </div>
                                 <p class="card-text">
-                                    지점명: ${data.cafeDto.brchNm}<br>
-                                    건물명: ${data.cafeDto.bldNm}<br>
-                                    업종: ${data.cafeDto.indsSclsNm}<br>
-                                    주소: ${data.cafeDto.rdnmAdr}<br>
-                                </p>`
+                                    ${data.cafeDto.brchNm ? '지점명: '+data.cafeDto.brchNm+'<br>' : ''}
+                                    ${data.cafeDto.bldNm ? '건물명: '+data.cafeDto.bldNm+'<br>' : ''}
+                                    ${data.cafeDto.indsSclsNm ? '업종: '+data.cafeDto.indsSclsNm+'<br>' : ''}
+                                    ${data.cafeDto.rdnmAdr ? '주소: '+data.cafeDto.rdnmAdr+'<br>' : ''}
+                                </p>
+                                <p class="fw-bold mb-0">대표정보</p>`
                                 + buttonHtml +
                             `</div>`;
                             //<div class="card-footer bg-transparent border-success">정보 수정요청</div>`;
                 cafeInfoDiv.innerHTML = html;
 
                 // 리뷰 건수 세팅
-                html = `<span>리뷰 ${data.reviewDTOList.length}건</span><button type="button" class="btn btn-outline-success" onclick="loginCheck('review')">리뷰 쓰기</button>`;
+                html = `<span>리뷰 ${data.reviewDTOList.length}건</span><button type="button" class="btn btn-outline-secondary" onclick="loginCheck('review')">리뷰 쓰기</button>`;
                 //onclick="openReview()
                 //loginCheck()
                 //data-bs-toggle="modal" data-bs-target="#exampleModal"
@@ -549,7 +555,7 @@
                 for (var i = 0; i < data.reviewDTOList.length; i++) {
                     //console.log([[${userId}]]+' '+data.reviewDTOList[i].userId);
                     if([[${userId}]] == data.reviewDTOList[i].userId){
-                        modButtonHTML = `<button type="button" class="btn btn-outline-success mt-2 mx-1 float-end" onclick="remove(${data.reviewDTOList[i].reviewId}, ${data.cafeDto.cafeId})">삭제</button>`;
+                        modButtonHTML = `<button type="button" class="btn btn-outline-secondary mt-2 mx-1 float-end" onclick="remove(${data.reviewDTOList[i].reviewId}, ${data.cafeDto.cafeId})">삭제</button>`;
                                          //<button type="button" class="btn btn-outline-success mt-2 mx-1 float-end" onclick="modify(${data.reviewDTOList[i].reviewId})">수정</button>`;
                     }
 
@@ -570,22 +576,22 @@
         }
 
         // 카페정보 & 리뷰에서 사용자가 선택한 버튼 HTML 만들어 주는 함수
-        function buttonMaker(storeSize,floor,consent,wifi,confort){
+        function buttonMaker(storeSize,floor,consent,wifi,confort,userCnt){
 
-            let buttonTemplate =  `<button type="button" class="btn btn-outline-success p-1 mt-1 me-1" style="pointer-events: none;">`;
+            let buttonTemplate =  `<button type="button" style="pointer-events: none;" class="btn p-1 mt-1 me-1 text-black `;
             let buttonHtml = ``;
 
             // 매장크기
             if(!!storeSize) {
                 buttonHtml += buttonTemplate;
                 if (storeSize == 'TAKEOUT') {
-                    buttonHtml += `포장 전용🏝`;
+                    buttonHtml += `btn-outline-danger"> 🏝포장 전용`;
                 } else if (storeSize == 'SMALL') {
-                    buttonHtml += `소형 매장🏠`;
+                    buttonHtml += `btn-outline-warning">🏠소형 매장`;
                 } else if (storeSize == 'MEDIUM') {
-                    buttonHtml += `중형 매장🏘`;
+                    buttonHtml += `btn-outline-success">🏘중형 매장`;
                 } else if (storeSize == 'LARGE') {
-                    buttonHtml += `대형 매장🏰`;
+                    buttonHtml += `btn-outline-primary">🏰대형 매장`;
                 }
                 buttonHtml += `</button>`;
             }
@@ -594,13 +600,13 @@
             if(!!floor) {
                 buttonHtml += buttonTemplate;
                 if (floor == 'FIRST') {
-                    buttonHtml += `1층🚶‍♂️`;
+                    buttonHtml += `btn-outline-success">🚶‍♂️1층`;
                 } else if (floor == 'SECOND') {
-                    buttonHtml += `2층🪂`;
+                    buttonHtml += `btn-outline-success">🪂2층`;
                 } else if (floor == 'THIRD') {
-                    buttonHtml += `3층✈`;
+                    buttonHtml += `btn-outline-success">✈3층`;
                 } else if (floor == 'MORE') {
-                    buttonHtml += `4층 이상🛰`;
+                    buttonHtml += `btn-outline-success">🛰4층 이상`;
                 }
                 buttonHtml += `</button>`;
             }
@@ -609,13 +615,13 @@
             if(!!consent) {
                 buttonHtml += buttonTemplate;
                 if (consent == '1') {
-                    buttonHtml += `콘센트 없음🚫`;
+                    buttonHtml += `btn-outline-danger">🚫콘센트 없음`;
                 } else if (consent == '2') {
-                    buttonHtml += `콘센트 적음☁`;
+                    buttonHtml += `btn-outline-warning">☁콘센트 적음`;
                 } else if (consent == '3') {
-                    buttonHtml += `콘센트 많음🌩`;
+                    buttonHtml += `btn-outline-success">🌩콘센트 많음`;
                 } else if (consent == '4') {
-                    buttonHtml += `콘센트 아주 많음!⚡`;
+                    buttonHtml += `btn-outline-primary">⚡콘센트 아주 많음!`;
                 }
                 buttonHtml += `</button>`;
             }
@@ -624,13 +630,13 @@
             if(!!wifi) {
                 buttonHtml += buttonTemplate;
                 if (wifi == '1') {
-                    buttonHtml += `와이파이 없음🚫`;
+                    buttonHtml += `btn-outline-danger">🚫와이파이 없음`;
                 } else if (wifi == '2') {
-                    buttonHtml += `와이파이 느림🛴`;
+                    buttonHtml += `btn-outline-warning">🛴와이파이 느림`;
                 } else if (wifi == '3') {
-                    buttonHtml += `와이파이 원활🚗`;
+                    buttonHtml += `btn-outline-success">🚗와이파이 원활`;
                 } else if (wifi == '4') {
-                    buttonHtml += `와이파이 쾌적!🚀`;
+                    buttonHtml += `btn-outline-primary">🚀와이파이 쾌적!`;
                 }
                 buttonHtml += `</button>`;
             }
@@ -639,15 +645,19 @@
             if(!!confort) {
                 buttonHtml += buttonTemplate;
                 if (confort == '1') {
-                    buttonHtml += `좌석이 불편🧗`;
+                    buttonHtml += `btn-outline-danger">🧗좌석 불편`;
                 } else if (confort == '2') {
-                    buttonHtml += `편하진 않아요🤸`;
+                    buttonHtml += `btn-outline-warning">🤸좌석이 편하진 않아요`;
                 } else if (confort == '3') {
-                    buttonHtml += `좌석 편안🧘`;
+                    buttonHtml += `btn-outline-success">🧘좌석 편안`;
                 } else if (confort == '4') {
-                    buttonHtml += `좌석 안락!🛌`;
+                    buttonHtml += `btn-outline-primary">🛌좌석이 안락!`;
                 }
                 buttonHtml += `</button>`;
+            }
+
+            if(buttonHtml == ''){
+                buttonHtml = `<p>리뷰가 없습니다.</p>`
             }
 
             return buttonHtml;
